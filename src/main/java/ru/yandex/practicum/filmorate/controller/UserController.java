@@ -1,32 +1,31 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/films")
-public class FilmController {
+@RequestMapping("/users")
+public class UserController {
 
-    private final Map<Long, Film> films = new HashMap<>();
+    private final Map<Long, User> users = new HashMap<>();
 
     @GetMapping
-    public Collection<Film> getAllFilms() {
+    public Collection<User> getAllUsers() {
         return null;
     }
 
     @PostMapping
-    public Film addFilm(@RequestBody Film newFilm) {
+    public User createUser(@RequestBody User newUser) {
         return null;
     }
 
     @PutMapping
-    public Film updateFilm(@RequestBody Film film) {
+    public User updateUser(@RequestBody User user) {
         return null;
     }
-
 
 }
