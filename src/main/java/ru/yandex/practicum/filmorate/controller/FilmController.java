@@ -15,7 +15,7 @@ public class FilmController {
 
     @GetMapping
     public Collection<Film> getAllFilms() {
-        return null;
+        return films.values();
     }
 
     @PostMapping
