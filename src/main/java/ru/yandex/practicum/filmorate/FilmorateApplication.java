@@ -10,8 +10,6 @@ import java.time.LocalDate;
 public class FilmorateApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FilmorateApplication.class, args);
-		System.out.println(LocalDate.now());
-		System.out.println(Duration.ofMinutes(50));
 	}
 
 }

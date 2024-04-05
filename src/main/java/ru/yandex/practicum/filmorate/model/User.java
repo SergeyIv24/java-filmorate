@@ -8,9 +8,9 @@ import java.time.LocalDate;
 @Data
 public class User {
     Long id;
-    String email;
     String login;
     String name;
+    String email;
     @JsonFormat(pattern = "dd.MM.yyyy")
     LocalDate birthday;
 }

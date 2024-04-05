@@ -35,7 +35,7 @@ public class UserController {
             throw new ValidationException("Логин не может быть пустым");
         }
 
-        if (newUser.getName().isEmpty() || newUser.getName().isBlank()) {
+        if (newUser.getName() == null ||newUser.getName().isEmpty() || newUser.getName().isBlank()) {
             newUser.setName(newUser.getLogin());
         }
 
