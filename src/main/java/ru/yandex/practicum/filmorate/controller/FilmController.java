@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film addFilm(@RequestBody Film newFilm) {
+    public Film addFilm(@Valid @RequestBody Film newFilm) {
 
         if (newFilm.getName().isEmpty() || newFilm.getName().isBlank()) {
             log.warn("Не заполнено название фильма");
@@ -51,7 +53,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film updateFilm(@RequestBody Film film) {
+    public Film updateFilm(@Valid @RequestBody Film film) {
         if (film.getId() == null) {
             log.warn("Не заполнено Id");
             throw new ValidationException("Id должен быть указан");

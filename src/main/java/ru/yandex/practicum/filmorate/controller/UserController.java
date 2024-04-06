@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User newUser) {
+    public User createUser(@Valid @RequestBody User newUser) {
 
         if (newUser.getEmail().isEmpty() || newUser.getEmail().isBlank()) {
             log.warn("Пользователь не указал Email");
@@ -55,7 +56,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User updateUser(@RequestBody User user) {
+    public User updateUser(@Valid @RequestBody User user) {
 
         if (user.getId() == null) {
             log.warn("Не указан Id");

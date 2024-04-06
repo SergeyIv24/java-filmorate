@@ -18,10 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class UserFilmorateApplicationTests {
 	private static URI uri;
 	private static HttpClient client;
+	//Запуск сервера
 	private static final ConfigurableApplicationContext app = SpringApplication.run(FilmorateApplication.class);
 
 	@BeforeAll
-	public static void createClient() {
+	public static void createClient() { //Создание HTTP - клиента
 		uri = URI.create("http://localhost:8080/users");
 		client = HttpClient.newBuilder()
 				.connectTimeout(Duration.ofSeconds(10))
@@ -30,7 +31,7 @@ class UserFilmorateApplicationTests {
 
 	@AfterAll
 	public static void stopServer() {
-		app.close();
+		app.close(); //Остановка сервера
 	}
 
 	@Test
@@ -63,7 +64,7 @@ class UserFilmorateApplicationTests {
 				.build();
 		HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
 		HttpResponse<String> response = client.send(requestPost, handlerPost);
-		assertEquals(500, response.statusCode());
+		assertEquals(400, response.statusCode());
 	}
 
 	@Test
@@ -80,7 +81,7 @@ class UserFilmorateApplicationTests {
 				.build();
 		HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
 		HttpResponse<String> response = client.send(requestPost, handlerPost);
-		assertEquals(500, response.statusCode());
+		assertEquals(400, response.statusCode());
 	}
 
 	@Test

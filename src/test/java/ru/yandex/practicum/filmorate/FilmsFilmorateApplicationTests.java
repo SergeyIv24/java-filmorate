@@ -65,7 +65,7 @@ class FilmsFilmorateApplicationTests {
                 .build();
         HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(requestPost, handlerPost);
-        assertEquals(500, response.statusCode());
+        assertEquals(400, response.statusCode());
     }
 
     @Test
