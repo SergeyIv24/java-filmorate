@@ -41,7 +41,7 @@ class UserFilmorateApplicationTests {
         String firstUser = "{\"login\": \"Sergey\"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"email\": \"SomeEmail@yandex.ru\"," +
-                "\"birthday\": \"28.12.1998\"}";
+                "\"birthday\": \"1998-12-28\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(firstUser))
                 .setHeader("Accept", "application/json")
@@ -57,7 +57,7 @@ class UserFilmorateApplicationTests {
     public void shouldReturn500WhenUserWithoutEmail() throws IOException, InterruptedException {
         String secondUser = "{\"login\": \"Sergey\"," +
                 "\"name\": \"SergeyIv\"," +
-                "\"birthday\": \"28.12.1998\"}";
+                "\"birthday\": \"1998-12-28\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(secondUser))
                 .setHeader("Accept", "application/json")
@@ -74,7 +74,7 @@ class UserFilmorateApplicationTests {
         String thirdUser = "{\"login\": \"     \"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"email\": \"SomeEmail@yandex.ru\"," +
-                "\"birthday\": \"28.12.1998\"}";
+                "\"birthday\": \"1998-12-28\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(thirdUser))
                 .setHeader("Accept", "application/json")
@@ -91,7 +91,7 @@ class UserFilmorateApplicationTests {
         String thirdUser = "{\"login\": \"Sergey\"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"email\": \"SomeEmail@yandex.ru\"," +
-                "\"birthday\": \"28.12.2998\"}";
+                "\"birthday\": \"2998-12-28\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(thirdUser))
                 .setHeader("Accept", "application/json")

@@ -38,7 +38,7 @@ class FilmsFilmorateApplicationTests {
     public void shouldReturn200WhenAddNewFilm() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
-                "\"releaseDate\": \"22.07.2010\"," +
+                "\"releaseDate\": \"2010-07-22\"," +
                 "\"duration\": \"148\"}"; //Тело запроса
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(firstUser))
@@ -55,7 +55,7 @@ class FilmsFilmorateApplicationTests {
     public void shouldReturn500WhenNameIsEmpty() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"    \"," +
                 "\"description\": \"Film is about dreams\"," +
-                "\"releaseDate\": \"22.07.2010\"," +
+                "\"releaseDate\": \"2010-07-22\"," +
                 "\"duration\": \"148\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(firstUser))
@@ -72,7 +72,7 @@ class FilmsFilmorateApplicationTests {
     public void shouldReturn500WhenNegativeDuration() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
-                "\"releaseDate\": \"22.07.2010\"," +
+                "\"releaseDate\": \"2010-07-22\"," +
                 "\"duration\": \"-5\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(firstUser))
@@ -89,7 +89,7 @@ class FilmsFilmorateApplicationTests {
     public void shouldReturn500WhenNotCorrectData() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
-                "\"releaseDate\": \"22.07.1010\"," +
+                "\"releaseDate\": \"1010-07-22\"," +
                 "\"duration\": \"500\"}";
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(firstUser))
