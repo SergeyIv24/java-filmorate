@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
@@ -19,7 +18,7 @@ public class Film {
     @NotBlank @NotNull
     String name;
     String description;
-    @JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата
+    //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate releaseDate;
     Duration duration;
 

@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -16,6 +15,6 @@ public class User {
     String name;
     @Email @NonNull @NotBlank
     String email;
-    @JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата
+    //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate birthday;
 }
