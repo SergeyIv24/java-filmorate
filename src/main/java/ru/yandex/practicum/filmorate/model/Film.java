@@ -30,7 +30,7 @@ public class Film {
     }
 
     @JsonSetter("duration")
-    public void DurationInMinutes(long duration) {
+    public void durationInMinutes(long duration) {
         this.duration = Duration.ofMinutes(duration);
     }
 }
