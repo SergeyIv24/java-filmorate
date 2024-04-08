@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Duration;
@@ -30,6 +31,6 @@ public class Film {
 
     @JsonSetter("duration")
     public void DurationInMinutes(long duration) {
-        this.duration= Duration.ofMinutes(duration);
+        this.duration = Duration.ofMinutes(duration);
     }
 }
