@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -26,26 +25,7 @@ public class FilmController {
 
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film newFilm) {
-
-        if (newFilm.getName().isEmpty() || newFilm.getName().isBlank()) {
-            log.warn("Не заполнено название фильма");
-            throw new ValidationException("Название фильма должно быть заполнено");
-        }
-
-        if (newFilm.getDescription().length() > 200) {
-            log.warn("Описание менее 200 символов");
-            throw new ValidationException("Описание должно быть менее 200 символов");
-        }
-
-        if (newFilm.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
-            log.warn("Не корректная дата");
-            throw new ValidationException("Фильм не мог быть выпущен в эту дату.");
-        }
-
-        if (newFilm.getDuration().toMinutes() <= 0) {
-            log.warn("Некорректная продолжительность");
-            throw new ValidationException("Продолжительность фильма должна быть положительной");
-        }
+                validate(newFilm);
         newFilm.setId(parseId());
         films.put(newFilm.getId(), newFilm);
 
@@ -64,6 +44,21 @@ public class FilmController {
             throw new ValidationException("Фильм не существует");
         }
 
+        validate(film);
+
+        films.put(film.getId(), film);
+        return film;
+    }
+
+    private Long parseId() {
+        long currentMaxId = films.keySet().stream()
+                .mapToLong(id -> id)
+                .max()
+                .orElse(0);
+        return ++currentMaxId;
+    }
+
+    private void validate(Film film) {
         if (film.getName().isEmpty() || film.getName().isBlank()) {
             log.warn("Не заполнено название фильма");
             throw new ValidationException("Название фильма должно быть заполнено");
@@ -75,29 +70,13 @@ public class FilmController {
         }
 
         if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
-            log.warn("Некорректная дата");
+            log.warn("Не корректная дата");
             throw new ValidationException("Фильм не мог быть выпущен в эту дату.");
         }
 
         if (film.getDuration().toMinutes() <= 0) {
-            log.warn("Не верная продолжительность фильма");
+            log.warn("Некорректная продолжительность");
             throw new ValidationException("Продолжительность фильма должна быть положительной");
         }
-
-        Film oldFilm = films.get(film.getId());
-        oldFilm.setDescription(film.getDescription());
-        oldFilm.setDuration(film.getDuration());
-        oldFilm.setReleaseDate(film.getReleaseDate());
-        oldFilm.setName(film.getName());
-        films.put(oldFilm.getId(), oldFilm);
-        return film;
-    }
-
-    private Long parseId() {
-        long currentMaxId = films.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
     }
 }
