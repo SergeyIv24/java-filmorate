@@ -1,12 +1,33 @@
 package ru.yandex.practicum.filmorate.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import lombok.Data;
+import javax.validation.constraints.NotBlank;
+import java.time.Duration;
+import java.time.LocalDate;
 
 /**
  * Film.
  */
-@Getter
-@Setter
+@Data
 public class Film {
+    Long id;
+    @NotBlank
+    String name;
+    String description;
+    //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
+    LocalDate releaseDate;
+    Duration duration;
+
+    //Методы для обработки продолжительности в запросах, переданных, как количество минут
+    @JsonGetter("duration")
+    public long getDurationInMinutes() {
+        return duration.toMinutes();
+    }
+
+    @JsonSetter("duration")
+    public void durationInMinutes(long duration) {
+        this.duration = Duration.ofMinutes(duration);
+    }
 }
