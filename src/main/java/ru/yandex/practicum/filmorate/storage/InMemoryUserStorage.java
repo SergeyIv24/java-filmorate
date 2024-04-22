@@ -10,14 +10,27 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    Map<Long, User> users = new HashMap<>();
+
+    @Override
+    public Map<Long, User> getUsers() {
+        return users;
+    }
 
     public Collection<User> getAllUsers() {
         return users.values();
+    }
+
+    @Override
+    public User getUser(Long userId) {
+        return users.get(userId);
     }
 
     @Override

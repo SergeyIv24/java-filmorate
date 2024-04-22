@@ -8,16 +8,29 @@ import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
 
     private static final Logger log = LoggerFactory.getLogger(InMemoryFilmStorage.class);
+    Map<Long, Film> films = new HashMap<>();
+
+    @Override
+    public Map<Long, Film> getFilms() {
+        return films;
+    }
 
 
     public Collection<Film> getAllFilms() { //Возврат всех фильмов
         return films.values();
+    }
+
+    @Override
+    public Film getFilm(Long filmId) {
+        return films.get(filmId);
     }
 
     @Override

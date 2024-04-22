@@ -21,11 +21,11 @@ public class FilmService {
     }
 
     public boolean addLikeToFilm(Long userId, Long filmId) {
-        if (!isFilmExist(filmId)) { //Если фильма нет
+        if (isFilmExist(filmId)) { //Если фильма нет
             return false;
         }
 
-        if (!isUserExist(userId)) { //Если нет пользователя
+        if (isUserExist(userId)) { //Если нет пользователя
             return false;
         }
         return filmStorage.getFilms().get(filmId).getUsersWhoLiked().add(userId);
@@ -54,19 +54,19 @@ public class FilmService {
 
 
 
-
     private boolean isFilmExist(Long filmId) {
-        if (filmStorage.getFilms().containsKey(filmId)) {
-            return true;
+        if (!filmStorage.getFilms().containsKey(filmId)) {
+            throw new ValidationException("Фильма с таким id не существует");
+
         }
-        throw new ValidationException("Фильма с таким id не существует");
+        return true;
     }
 
     private boolean isUserExist(Long userId) {
-        if (userStorage.getUsers().containsKey(userId)) {
-            return true;
+        if (!userStorage.getUsers().containsKey(userId)) {
+            throw new ValidationException("Пользователь с таким id не существует");
         }
-        throw new ValidationException("Пользователь с таким id не существует");
+        return true;
     }
 
 }
