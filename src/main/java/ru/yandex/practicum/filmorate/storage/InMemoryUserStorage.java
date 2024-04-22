@@ -49,7 +49,10 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User deleteUser(User user) {
-        return null;
+        if (!users.containsKey(user.getId())) {
+            throw new ValidationException("Пользователя не существует");
+        }
+        return users.remove(user.getId());
     }
 
     private Long parseId() {

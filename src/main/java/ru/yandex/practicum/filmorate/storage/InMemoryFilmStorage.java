@@ -52,7 +52,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             log.warn("Запрошен несуществующий фильм");
             throw new ValidationException("Фильм не существует");
         }
-        return films.get(film.getId());
+        return films.remove(film.getId());
     }
 
     private Long parseId() {
