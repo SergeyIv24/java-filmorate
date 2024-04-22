@@ -48,6 +48,7 @@ public class UserService {
                 && userForDeletingFromFriends.getFriends().remove(user);
     }
 
+    //Метод поиска общих друзей
     public List<User> getCommonFriends(Long userId, Long otherId) {
         if (!checkExistUser(userId, otherId)) {
             return null;

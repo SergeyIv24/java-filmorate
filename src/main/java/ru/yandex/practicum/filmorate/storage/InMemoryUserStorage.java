@@ -24,6 +24,10 @@ public class InMemoryUserStorage implements UserStorage {
         return users;
     }
 
+    public Collection<User> getFriendsUserById(Long userId) {
+        return users.get(userId).getFriends();
+    }
+
     public Collection<User> getAllUsers() {
         return users.values();
     }

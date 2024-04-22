@@ -27,6 +27,16 @@ public class UserController {
         return userStorage.getUser(userId);
     }
 
+    @GetMapping("/{id}/friends")
+    public Collection<User> getAllUsersById(@PathVariable Long id) {
+        return userStorage.getFriendsUserById(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public Collection<User> findCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
+        return userService.getCommonFriends(id, otherId);
+    }
+
     @GetMapping
     public Collection<User> getAllUsers() {
         return userStorage.getAllUsers();
@@ -48,6 +58,9 @@ public class UserController {
         userService.addUserInFriends(userId, friendId);
     }
 
-
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public void deleteFromFriends(@PathVariable Long userId, @PathVariable Long friendId) {
+        userService.deleteUserFromFriends(userId, friendId);
+    }
 
 }

@@ -15,6 +15,7 @@ public interface UserStorage {
     Collection<User> getAllUsers();
 
     User getUser(Long userId);
+    Collection<User> getFriendsUserById(Long userId);
 
     User addUser(User newUser);
 
