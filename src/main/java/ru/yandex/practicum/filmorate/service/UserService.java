@@ -62,9 +62,12 @@ public class UserService {
     }
 
     //Проверка существует ли пользователь
-    private boolean checkExistUser(Long userId, Long friendId) { //Todo не верное логическое условие
-        if (!userStorage.getUsers().containsKey(userId) || //Если пользователя или друга не существует
-                (!userStorage.getUsers().containsKey(friendId))) {
+    private boolean checkExistUser(Long userId, Long friendId) {
+        if (!userStorage.getUsers().containsKey(userId)) {
+            throw new ValidationException("Пользователь не существует");
+        }
+
+        if (!userStorage.getUsers().containsKey(friendId)) {
             throw new ValidationException("Пользователь не существует");
         }
         return true;

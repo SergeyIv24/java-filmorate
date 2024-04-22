@@ -15,7 +15,6 @@ import java.util.Collection;
 @Component
 public class InMemoryUserStorage implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    //private final Map<Long, User> users = new HashMap<>();
 
     public Collection<User> getAllUsers() {
         return users.values();
