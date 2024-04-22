@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
@@ -23,43 +24,51 @@ public class UserController {
 
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable Long userId) {
+    @ResponseStatus(HttpStatus.OK)
+    public User getUserById(@PathVariable Long userId) { //Получение пользователя по id
         return userStorage.getUser(userId);
     }
 
     @GetMapping("/{id}/friends")
-    public Collection<User> getAllUsersById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<User> getAllUsersById(@PathVariable Long id) { //Получение всех друзей пользователя
         return userStorage.getFriendsUserById(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Collection<User> findCommonFriends(@PathVariable Long id, @PathVariable Long otherId) {
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<User> findCommonFriends(@PathVariable Long id, @PathVariable Long otherId) { //Поиск общих друзей
         return userService.getCommonFriends(id, otherId);
     }
 
     @GetMapping
-    public Collection<User> getAllUsers() {
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<User> getAllUsers() { //Получение всех пользователей
         return userStorage.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User newUser) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createUser(@Valid @RequestBody User newUser) { //Создание пользователя
         return userStorage.addUser(newUser);
     }
 
     @PutMapping
-    public User updateUser(@Valid @RequestBody User user) {
+    @ResponseStatus(HttpStatus.OK)
+    public User updateUser(@Valid @RequestBody User user) { //Обновление пользователя
         return userStorage.updateUser(user);
 
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public void makeUsersFriends(@PathVariable Long userId, @PathVariable Long friendId) {
+    @ResponseStatus(HttpStatus.OK)
+    public void makeUsersFriends(@PathVariable Long userId, @PathVariable Long friendId) { //Добавление в друзья
         userService.addUserInFriends(userId, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public void deleteFromFriends(@PathVariable Long userId, @PathVariable Long friendId) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteFromFriends(@PathVariable Long userId, @PathVariable Long friendId) { //Удаление из друзей
         userService.deleteUserFromFriends(userId, friendId);
     }
 

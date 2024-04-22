@@ -43,12 +43,16 @@ public class FilmService {
         return filmStorage.getFilms().get(filmId).getUsersWhoLiked().remove(userId);
     }
 
-    public List<Film> get10PopularFilms() {
+    public List<Film> getSomePopularFilms(int amountOfFilms) {
+        if (amountOfFilms == 0) {
+            amountOfFilms = 10;
+        }
+
         return filmStorage.getFilms().values().stream().sorted((film1, film2) -> { //Сравнение по количеству лайков (убыванию)
             Integer countOfLikes1 = film1.getUsersWhoLiked().size();
             Integer countOfLikes2 = film2.getUsersWhoLiked().size();
             return countOfLikes2.compareTo(countOfLikes1);
-        }).limit(10).collect(Collectors.toList());
+        }).limit(amountOfFilms).collect(Collectors.toList());
     }
 
 

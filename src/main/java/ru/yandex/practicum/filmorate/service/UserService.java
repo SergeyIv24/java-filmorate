@@ -21,7 +21,6 @@ public class UserService {
 
     //Метод добавления пользователя в друзья
     public boolean addUserInFriends(Long userId, Long friendId) {
-
         if (!checkExistUser(userId, friendId)) {
             return false;
         }
