@@ -10,13 +10,12 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @Component
 public class InMemoryUserStorage implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    private final Map<Long, User> users = new HashMap<>();
+    //private final Map<Long, User> users = new HashMap<>();
 
     public Collection<User> getAllUsers() {
         return users.values();
@@ -40,7 +39,7 @@ public class InMemoryUserStorage implements UserStorage {
 
         if (!users.containsKey(user.getId())) {
             log.warn("Запрошен несуществующий пользователь");
-            throw new ValidationException("Пользователя не существует");
+            throw new ValidationException("Пользователь не существует");
         }
         validate(user);
         users.put(user.getId(), user);
