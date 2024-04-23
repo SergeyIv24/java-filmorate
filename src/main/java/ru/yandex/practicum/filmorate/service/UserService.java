@@ -6,7 +6,6 @@ import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,40 +20,31 @@ public class UserService {
     }
 
     //Метод добавления пользователя в друзья
-    public boolean addUserInFriends(Long userId, Long friendId) {
-        if (!checkExistUser(userId, friendId)) {
-            return false;
-        }
-
+    public void addUserInFriends(Long userId, Long friendId) {
+        checkExistUser(userId, friendId); //Проверка, что пользователи существуют
         User user = userStorage.getUsers().get(userId); //Текущий пользователь
         User userForAddingToFriends = userStorage.getUsers().get(friendId); //Пользователь для добавления в друзья
 
         if (user.getFriends().add(userForAddingToFriends)  //Добавление обоим пользователям друг друга
                 && userForAddingToFriends.getFriends().add(user)) { //True - успех, false - не добавлен
-            return true;
+            return;
         }
         //todo log
         throw new ValidationException("Пользователь уже есть в друзьях");
     }
 
     //Метод удаления пользователя из друзей
-    public boolean deleteUserFromFriends(Long userId, Long friendId) {
-        if (!checkExistUser(userId, friendId)) {
-            return false;
-        }
+    public void deleteUserFromFriends(Long userId, Long friendId) {
+        checkExistUser(userId, friendId);
         User user = userStorage.getUsers().get(userId); //Текущий пользователь
         User userForDeletingFromFriends = userStorage.getUsers().get(friendId); //Пользователь для добавления в друзья
-
-        return user.getFriends().remove(userForDeletingFromFriends) //Удаление у обоих пользователей
-                && userForDeletingFromFriends.getFriends().remove(user);
+        user.getFriends().remove(userForDeletingFromFriends); //Удаление у обоих пользователей
+        userForDeletingFromFriends.getFriends().remove(user);
     }
 
     //Метод поиска общих друзей
     public List<User> getCommonFriends(Long userId, Long otherId) {
-        if (!checkExistUser(userId, otherId)) {
-            return null;
-        }
-
+        checkExistUser(userId, otherId);
         User user = userStorage.getUsers().get(userId); //Текущий пользователь
         User otherUser = userStorage.getUsers().get(otherId); //Пользователь для добавления в друзья
 
@@ -64,7 +54,7 @@ public class UserService {
     }
 
     //Проверка существует ли пользователь
-    private boolean checkExistUser(Long userId, Long friendId) {
+    private void checkExistUser(Long userId, Long friendId) {
         if (!userStorage.getUsers().containsKey(userId)) {
             //todo log
             throw new NotFoundException("Пользователь не существует");
@@ -74,8 +64,5 @@ public class UserService {
             //todo log
             throw new NotFoundException("Пользователь не существует");
         }
-        return true;
     }
-
-
 }

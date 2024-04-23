@@ -6,7 +6,6 @@ import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,27 +20,17 @@ public class FilmService {
         this.userStorage = userStorage;
     }
 
-    public boolean addLikeToFilm(Long userId, Long filmId) {
-        if (isFilmExist(filmId)) { //Если фильма нет
-            return false;
-        }
-
-        if (isUserExist(userId)) { //Если нет пользователя
-            return false;
-        }
-        return filmStorage.getFilms().get(filmId).getUsersWhoLiked().add(userId);
+    public void addLikeToFilm(Long userId, Long filmId) {
+        isFilmExist(filmId);
+        isUserExist(userId);
+        filmStorage.getFilms().get(filmId).getUsersWhoLiked().add(userId);
     }
 
     //Метод удаления лайка с фильма
-    public boolean deleteLike(Long filmId, Long userId) {
-        if (!isFilmExist(filmId)) { //Если фильма нет
-            return false;
-        }
-
-        if (!isUserExist(userId)) { //Если нет пользователя
-            return false;
-        }
-        return filmStorage.getFilms().get(filmId).getUsersWhoLiked().remove(userId);
+    public void deleteLike(Long filmId, Long userId) {
+        isFilmExist(filmId);
+        isUserExist(userId);
+        filmStorage.getFilms().get(filmId).getUsersWhoLiked().remove(userId);
     }
 
     public List<Film> getSomePopularFilms(int amountOfFilms) {
@@ -56,23 +45,17 @@ public class FilmService {
         }).limit(amountOfFilms).collect(Collectors.toList());
     }
 
-
-
-
-    private boolean isFilmExist(Long filmId) {
+    private void isFilmExist(Long filmId) {
         if (!filmStorage.getFilms().containsKey(filmId)) {
             //todo log
             throw new NotFoundException("Фильма с таким id не существует");
         }
-        return true;
     }
 
-    private boolean isUserExist(Long userId) {
+    private void isUserExist(Long userId) {
         if (!userStorage.getUsers().containsKey(userId)) {
             //todo log
             throw new NotFoundException("Пользователь с таким id не существует");
         }
-        return true;
     }
-
 }
