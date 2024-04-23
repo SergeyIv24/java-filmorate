@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
+    private static final Logger log = LoggerFactory.getLogger(FilmService.class);
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
 
@@ -47,14 +50,14 @@ public class FilmService {
 
     private void isFilmExist(Long filmId) {
         if (!filmStorage.getFilms().containsKey(filmId)) {
-            //todo log
+            log.warn("Фильма нет в мапе");
             throw new NotFoundException("Фильма с таким id не существует");
         }
     }
 
     private void isUserExist(Long userId) {
         if (!userStorage.getUsers().containsKey(userId)) {
-            //todo log
+            log.warn("Пользователя нет в мапе");
             throw new NotFoundException("Пользователь с таким id не существует");
         }
     }

@@ -1,17 +1,20 @@
 package ru.yandex.practicum.filmorate.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     UserStorage userStorage;
 
     @Autowired
@@ -29,7 +32,7 @@ public class UserService {
                 && userForAddingToFriends.getFriends().add(user)) { //True - успех, false - не добавлен
             return;
         }
-        //todo log
+        log.warn("Пользователь был добавлен в друзья ранее");
         throw new ValidationException("Пользователь уже есть в друзьях");
     }
 
@@ -56,12 +59,12 @@ public class UserService {
     //Проверка существует ли пользователь
     private void checkExistUser(Long userId, Long friendId) {
         if (!userStorage.getUsers().containsKey(userId)) {
-            //todo log
+            log.warn("Пользователя нет в мапе");
             throw new NotFoundException("Пользователь не существует");
         }
 
         if (!userStorage.getUsers().containsKey(friendId)) {
-            //todo log
+            log.warn("Пользователя нет в мапе");
             throw new NotFoundException("Пользователь не существует");
         }
     }
