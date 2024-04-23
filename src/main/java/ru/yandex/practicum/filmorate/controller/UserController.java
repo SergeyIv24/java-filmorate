@@ -61,14 +61,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void makeUsersFriends(@PathVariable Long userId, @PathVariable Long friendId) { //Добавление в друзья
-        userService.addUserInFriends(userId, friendId);
+    @ResponseStatus(HttpStatus.OK) //Добавление в друзья
+    public void makeUsersFriends(@PathVariable(value = "id") Long id, @PathVariable(value = "friendId") Long friendId) {
+        userService.addUserInFriends(id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteFromFriends(@PathVariable Long userId, @PathVariable Long friendId) { //Удаление из друзей
+    public void deleteFromFriends(@PathVariable(value = "id") Long userId, @PathVariable(value = "friendId") Long friendId) { //Удаление из друзей
         userService.deleteUserFromFriends(userId, friendId);
     }
 

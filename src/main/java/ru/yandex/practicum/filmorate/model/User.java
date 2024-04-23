@@ -1,6 +1,8 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -8,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@JsonIgnoreProperties("friends")
 public class User {
     Long id;
     @NotBlank
@@ -17,5 +20,6 @@ public class User {
     String email;
     //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate birthday;
+    @EqualsAndHashCode.Exclude
     Set<User> friends = new HashSet<>();
 }

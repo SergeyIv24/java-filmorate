@@ -7,11 +7,6 @@ import java.util.Map;
 
 public interface UserStorage {
 
-/*    Map<Long, User> users = new HashMap<>();
-
-    default Map<Long, User> getUsers() {
-        return users;
-    }*/
     Collection<User> getAllUsers();
 
     User getUser(Long userId);

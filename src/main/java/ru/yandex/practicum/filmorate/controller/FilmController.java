@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
+
 import javax.validation.Valid;
 import java.util.Collection;
 
@@ -34,15 +35,14 @@ public class FilmController {
         return filmStorage.getAllFilms();
     }
 
-    @GetMapping("/popular/{count}")
+    @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Film> getAllFilms(@PathVariable(required = false) int count) { //Получение популярных фильмов
+    public Collection<Film> getAllFilms(@RequestParam int count) { //Получение популярных фильмов
         if (count != 0) {
             return filmService.getSomePopularFilms(count);
         }
         return filmStorage.getAllFilms();
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,7 +58,7 @@ public class FilmController {
 
     @PutMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addLikeToFilm(@PathVariable Long id, @PathVariable Long userId) { //Добавление лайка к фильму
+    public void addLikeToFilm(@PathVariable(value = "id") Long id, @PathVariable(value = "userId") Long userId) { //Добавление лайка к фильму
         filmService.addLikeToFilm(userId, id);
     }
 

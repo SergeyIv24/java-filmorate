@@ -25,24 +25,23 @@ public class UserService {
     //Метод добавления пользователя в друзья
     public void addUserInFriends(Long userId, Long friendId) {
         checkExistUser(userId, friendId); //Проверка, что пользователи существуют
-        User user = userStorage.getUsers().get(userId); //Текущий пользователь
-        User userForAddingToFriends = userStorage.getUsers().get(friendId); //Пользователь для добавления в друзья
 
-        if (user.getFriends().add(userForAddingToFriends)  //Добавление обоим пользователям друг друга
-                && userForAddingToFriends.getFriends().add(user)) { //True - успех, false - не добавлен
-            return;
+        if (userStorage.getUsers().get(userId).getFriends().contains(userStorage.getUsers().get(friendId))
+                || userStorage.getUsers().get(friendId).getFriends().contains(userStorage.getUsers().get(userId))) {
+            log.warn("Пользователь был добавлен в друзья ранее");
+            throw new ValidationException("Пользователь уже есть в друзьях");
         }
-        log.warn("Пользователь был добавлен в друзья ранее");
-        throw new ValidationException("Пользователь уже есть в друзьях");
+        userStorage.getUsers().get(userId).getFriends().add(userStorage.getUsers().get(friendId));
+        userStorage.getUsers().get(friendId).getFriends().add(userStorage.getUsers().get(userId));
+
+
     }
 
     //Метод удаления пользователя из друзей
     public void deleteUserFromFriends(Long userId, Long friendId) {
         checkExistUser(userId, friendId);
-        User user = userStorage.getUsers().get(userId); //Текущий пользователь
-        User userForDeletingFromFriends = userStorage.getUsers().get(friendId); //Пользователь для добавления в друзья
-        user.getFriends().remove(userForDeletingFromFriends); //Удаление у обоих пользователей
-        userForDeletingFromFriends.getFriends().remove(user);
+        userStorage.getUsers().get(userId).getFriends().remove(userStorage.getUsers().get(friendId)); //Удаление у обоих пользователей
+        userStorage.getUsers().get(friendId).getFriends().remove(userStorage.getUsers().get(userId));
     }
 
     //Метод поиска общих друзей
@@ -56,7 +55,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    //Проверка существует ли пользователь
+    //Проверка существует ли пользователь в мапах
     private void checkExistUser(Long userId, Long friendId) {
         if (!userStorage.getUsers().containsKey(userId)) {
             log.warn("Пользователя нет в мапе");
@@ -68,4 +67,6 @@ public class UserService {
             throw new NotFoundException("Пользователь не существует");
         }
     }
+
+
 }

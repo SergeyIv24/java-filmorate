@@ -24,6 +24,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     public Collection<User> getFriendsUserById(Long userId) {
+        isUserExist(userId);
         return users.get(userId).getFriends();
     }
 
@@ -33,6 +34,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User getUser(Long userId) {
+        isUserExist(userId);
         return users.get(userId);
     }
 
@@ -51,11 +53,7 @@ public class InMemoryUserStorage implements UserStorage {
             log.warn("Не указан Id");
             throw new ValidationException("Id должен быть указан");
         }
-
-        if (!users.containsKey(user.getId())) {
-            log.warn("Запрошен несуществующий пользователь");
-            throw new NotFoundException("Пользователь не существует");
-        }
+        isUserExist(user.getId());
         validate(user);
         users.put(user.getId(), user);
         return user;
@@ -63,9 +61,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User deleteUser(User user) {
-        if (!users.containsKey(user.getId())) {
-            throw new NotFoundException("Пользователя не существует");
-        }
+        isUserExist(user.getId());
         return users.remove(user.getId());
     }
 
@@ -75,6 +71,13 @@ public class InMemoryUserStorage implements UserStorage {
                 .max()
                 .orElse(0);
         return ++currentMaxId;
+    }
+
+    private void isUserExist(Long userId) {
+        if (!users.containsKey(userId)) {
+            log.warn("Запрошен несуществующий пользователь");
+            throw new NotFoundException("Пользователя не существует");
+        }
     }
 
     private void validate(User newUser) {
