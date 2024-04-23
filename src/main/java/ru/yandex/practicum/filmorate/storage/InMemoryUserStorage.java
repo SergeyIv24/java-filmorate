@@ -1,13 +1,12 @@
 package ru.yandex.practicum.filmorate.storage;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.controller.UserController;
+import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,7 +16,7 @@ import java.util.Map;
 @Component
 public class InMemoryUserStorage implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    Map<Long, User> users = new HashMap<>();
+    Map<Long, User> users = new HashMap<>(); //Мапа для хранения пользователей
 
     @Override
     public Map<Long, User> getUsers() {
@@ -55,7 +54,7 @@ public class InMemoryUserStorage implements UserStorage {
 
         if (!users.containsKey(user.getId())) {
             log.warn("Запрошен несуществующий пользователь");
-            throw new ValidationException("Пользователь не существует");
+            throw new NotFoundException("Пользователь не существует");
         }
         validate(user);
         users.put(user.getId(), user);
@@ -65,7 +64,7 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User deleteUser(User user) {
         if (!users.containsKey(user.getId())) {
-            throw new ValidationException("Пользователя не существует");
+            throw new NotFoundException("Пользователя не существует");
         }
         return users.remove(user.getId());
     }

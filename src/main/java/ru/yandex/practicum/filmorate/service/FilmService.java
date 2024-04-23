@@ -2,10 +2,11 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,15 +61,16 @@ public class FilmService {
 
     private boolean isFilmExist(Long filmId) {
         if (!filmStorage.getFilms().containsKey(filmId)) {
-            throw new ValidationException("Фильма с таким id не существует");
-
+            //todo log
+            throw new NotFoundException("Фильма с таким id не существует");
         }
         return true;
     }
 
     private boolean isUserExist(Long userId) {
         if (!userStorage.getUsers().containsKey(userId)) {
-            throw new ValidationException("Пользователь с таким id не существует");
+            //todo log
+            throw new NotFoundException("Пользователь с таким id не существует");
         }
         return true;
     }

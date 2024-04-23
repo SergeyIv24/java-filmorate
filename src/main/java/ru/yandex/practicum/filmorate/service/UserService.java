@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -32,6 +33,7 @@ public class UserService {
                 && userForAddingToFriends.getFriends().add(user)) { //True - успех, false - не добавлен
             return true;
         }
+        //todo log
         throw new ValidationException("Пользователь уже есть в друзьях");
     }
 
@@ -64,11 +66,13 @@ public class UserService {
     //Проверка существует ли пользователь
     private boolean checkExistUser(Long userId, Long friendId) {
         if (!userStorage.getUsers().containsKey(userId)) {
-            throw new ValidationException("Пользователь не существует");
+            //todo log
+            throw new NotFoundException("Пользователь не существует");
         }
 
         if (!userStorage.getUsers().containsKey(friendId)) {
-            throw new ValidationException("Пользователь не существует");
+            //todo log
+            throw new NotFoundException("Пользователь не существует");
         }
         return true;
     }
