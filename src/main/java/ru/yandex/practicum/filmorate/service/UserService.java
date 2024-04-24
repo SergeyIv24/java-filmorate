@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,26 @@ public class UserService {
     @Autowired
     public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
+    }
+
+    public User getUserById(Long userId) {
+        return userStorage.getUser(userId);
+    }
+
+    public Collection<User> getAllUsersById(Long id) {
+        return userStorage.getFriendsUserById(id);
+    }
+
+    public Collection<User> getAllUsers() {
+        return userStorage.getAllUsers();
+    }
+
+    public User createUser(User newUser) {
+        return userStorage.addUser(newUser);
+    }
+
+    public User updateUser(User user) {
+        return userStorage.updateUser(user);
     }
 
     //Метод добавления пользователя в друзья

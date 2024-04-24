@@ -1,38 +1,30 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import javax.validation.Valid;
 import java.util.Collection;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final UserStorage userStorage;
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserStorage userStorage, UserService userService) {
-        this.userStorage = userStorage;
-        this.userService = userService;
-    }
-
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public User getUserById(@PathVariable Long userId) { //Получение пользователя по id
-        return userStorage.getUser(userId);
+        return userService.getUserById(userId);
     }
 
     @GetMapping("/{id}/friends")
     @ResponseStatus(HttpStatus.OK)
     public Collection<User> getAllUsersById(@PathVariable Long id) { //Получение всех друзей пользователя
-        return userStorage.getFriendsUserById(id);
+        return userService.getAllUsersById(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
@@ -44,19 +36,19 @@ public class UserController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Collection<User> getAllUsers() { //Получение всех пользователей
-        return userStorage.getAllUsers();
+        return userService.getAllUsers();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@Valid @RequestBody User newUser) { //Создание пользователя
-        return userStorage.addUser(newUser);
+        return userService.createUser(newUser);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@Valid @RequestBody User user) { //Обновление пользователя
-        return userStorage.updateUser(user);
+        return userService.updateUser(user);
 
     }
 
@@ -71,5 +63,4 @@ public class UserController {
     public void deleteFromFriends(@PathVariable(value = "id") Long userId, @PathVariable(value = "friendId") Long friendId) { //Удаление из друзей
         userService.deleteUserFromFriends(userId, friendId);
     }
-
 }
