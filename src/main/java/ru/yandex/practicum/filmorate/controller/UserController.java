@@ -1,85 +1,66 @@
 package ru.yandex.practicum.filmorate.controller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    private final Map<Long, User> users = new HashMap<>();
+    private final UserService userService;
+
+    @GetMapping("/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public User getUserById(@PathVariable Long userId) { //Получение пользователя по id
+        return userService.getUserById(userId);
+    }
+
+    @GetMapping("/{id}/friends")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<User> getAllUsersById(@PathVariable Long id) { //Получение всех друзей пользователя
+        return userService.getAllUsersById(id);
+    }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<User> findCommonFriends(@PathVariable Long id, @PathVariable Long otherId) { //Поиск общих друзей
+        return userService.getCommonFriends(id, otherId);
+    }
 
     @GetMapping
-    public Collection<User> getAllUsers() {
-        return users.values();
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<User> getAllUsers() { //Получение всех пользователей
+        return userService.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@Valid @RequestBody User newUser) {
-        validate(newUser);
-        newUser.setId(parseId());
-        users.put(newUser.getId(), newUser);
-        return newUser;
+    @ResponseStatus(HttpStatus.CREATED)
+    public User createUser(@Valid @RequestBody User newUser) { //Создание пользователя
+        return userService.createUser(newUser);
     }
 
     @PutMapping
-    public User updateUser(@Valid @RequestBody User user) {
+    @ResponseStatus(HttpStatus.OK)
+    public User updateUser(@Valid @RequestBody User user) { //Обновление пользователя
+        return userService.updateUser(user);
 
-        if (user.getId() == null) {
-            log.warn("Не указан Id");
-            throw new ValidationException("Id должен быть указан");
-        }
-
-        if (!users.containsKey(user.getId())) {
-            log.warn("Запрошен несуществующий пользователь");
-            throw new ValidationException("Пользователя не существует");
-        }
-        validate(user);
-        users.put(user.getId(), user);
-        return user;
     }
 
-    private Long parseId() {
-        long currentMaxId = users.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
+    @PutMapping("/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.OK) //Добавление в друзья
+    public void makeUsersFriends(@PathVariable(value = "id") Long id, @PathVariable(value = "friendId") Long friendId) {
+        userService.addUserInFriends(id, friendId);
     }
 
-    private void validate(User newUser) {
-        if (newUser.getEmail().isEmpty() || newUser.getEmail().isBlank()) {
-            log.warn("Пользователь не указал Email");
-            throw new ValidationException("Email должен быть указан");
-        }
-
-        if (!newUser.getEmail().contains("@")) {
-            log.warn("Указан не верный формат Email");
-            throw new ValidationException("Не верный формат Email");
-        }
-
-        if (newUser.getLogin().isEmpty() || newUser.getLogin().isBlank()) {
-            log.warn("Пустой логин");
-            throw new ValidationException("Логин не может быть пустым");
-        }
-
-        if (newUser.getName() == null || newUser.getName().isEmpty() || newUser.getName().isBlank()) {
-            log.info("Имя не указано, имя заменено на логин");
-            newUser.setName(newUser.getLogin());
-        }
-
-        if (newUser.getBirthday().isAfter(LocalDate.now())) {
-            log.warn("Некорректная дата рождения");
-            throw new ValidationException("Вы еще не родились(");
-        }
+    @DeleteMapping("/{id}/friends/{friendId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteFromFriends(@PathVariable(value = "id") Long userId, @PathVariable(value = "friendId") Long friendId) { //Удаление из друзей
+        userService.deleteUserFromFriends(userId, friendId);
     }
-
 }

@@ -37,7 +37,7 @@ class UserFilmorateApplicationTests {
     }
 
     @Test
-    public void shouldReturn200WhenAddNewUser() throws IOException, InterruptedException {
+    public void shouldReturn201WhenAddNewUser() throws IOException, InterruptedException {
         String firstUser = "{\"login\": \"Sergey\"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"email\": \"SomeEmail@yandex.ru\"," +
@@ -50,11 +50,11 @@ class UserFilmorateApplicationTests {
                 .build();
         HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(requestPost, handlerPost);
-        assertEquals(200, response.statusCode());
+        assertEquals(201, response.statusCode());
     }
 
     @Test
-    public void shouldReturn500WhenUserWithoutEmail() throws IOException, InterruptedException {
+    public void shouldReturn400WhenUserWithoutEmail() throws IOException, InterruptedException {
         String secondUser = "{\"login\": \"Sergey\"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"birthday\": \"1998-12-28\"}";
@@ -70,7 +70,7 @@ class UserFilmorateApplicationTests {
     }
 
     @Test
-    public void shouldReturn500IfItIsWithoutLogin() throws IOException, InterruptedException {
+    public void shouldReturn400IfItIsWithoutLogin() throws IOException, InterruptedException {
         String thirdUser = "{\"login\": \"     \"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"email\": \"SomeEmail@yandex.ru\"," +
@@ -87,7 +87,7 @@ class UserFilmorateApplicationTests {
     }
 
     @Test
-    public void shouldReturn500WhenBirthdayInFuture() throws IOException, InterruptedException {
+    public void shouldReturn400WhenBirthdayInFuture() throws IOException, InterruptedException {
         String thirdUser = "{\"login\": \"Sergey\"," +
                 "\"name\": \"SergeyIv\"," +
                 "\"email\": \"SomeEmail@yandex.ru\"," +
@@ -100,7 +100,7 @@ class UserFilmorateApplicationTests {
                 .build();
         HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(requestPost, handlerPost);
-        assertEquals(500, response.statusCode());
+        assertEquals(400, response.statusCode());
     }
 
 

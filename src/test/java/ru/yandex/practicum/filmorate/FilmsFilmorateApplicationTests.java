@@ -35,7 +35,7 @@ class FilmsFilmorateApplicationTests {
     }
 
     @Test
-    public void shouldReturn200WhenAddNewFilm() throws IOException, InterruptedException {
+    public void shouldReturn201WhenAddNewFilm() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
                 "\"releaseDate\": \"2010-07-22\"," +
@@ -48,11 +48,11 @@ class FilmsFilmorateApplicationTests {
                 .build();
         HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(requestPost, handlerPost);
-        assertEquals(200, response.statusCode());
+        assertEquals(201, response.statusCode());
     }
 
     @Test
-    public void shouldReturn500WhenNameIsEmpty() throws IOException, InterruptedException {
+    public void shouldReturn400WhenNameIsEmpty() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"    \"," +
                 "\"description\": \"Film is about dreams\"," +
                 "\"releaseDate\": \"2010-07-22\"," +
@@ -69,7 +69,7 @@ class FilmsFilmorateApplicationTests {
     }
 
     @Test
-    public void shouldReturn500WhenNegativeDuration() throws IOException, InterruptedException {
+    public void shouldReturn400WhenNegativeDuration() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
                 "\"releaseDate\": \"2010-07-22\"," +
@@ -82,11 +82,11 @@ class FilmsFilmorateApplicationTests {
                 .build();
         HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(requestPost, handlerPost);
-        assertEquals(500, response.statusCode());
+        assertEquals(400, response.statusCode());
     }
 
     @Test
-    public void shouldReturn500WhenNotCorrectData() throws IOException, InterruptedException {
+    public void shouldReturn400WhenNotCorrectData() throws IOException, InterruptedException {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
                 "\"releaseDate\": \"1010-07-22\"," +
@@ -99,7 +99,7 @@ class FilmsFilmorateApplicationTests {
                 .build();
         HttpResponse.BodyHandler<String> handlerPost = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(requestPost, handlerPost);
-        assertEquals(500, response.statusCode());
+        assertEquals(400, response.statusCode());
     }
 
 
