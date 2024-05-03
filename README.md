@@ -24,3 +24,15 @@ Template repository for Filmorate project.
 
 Популярные фильмы или количество друзей можно вывести SQL запросом,
 посчитав сумму и сгруппировав по id_film / id_user
+
+SQL запрос для получения общих друзей пользователей 1 и 2
+
+``
+SELECT friend_user_id 
+FROM friends as f1
+WHERE (SELECT friend_id
+FROM friends
+WHERE user_id = 2) as f2
+AND user_id = 2
+AND f1.friend_id = f2.friend_id;
+``
