@@ -25,6 +25,12 @@ public class Film {
     Duration duration;
     @EqualsAndHashCode.Exclude
     Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
+    @EqualsAndHashCode.Exclude
+    FilmGenre genre;
+    @EqualsAndHashCode.Exclude
+    ageRating rating;
+
+
 
     //Методы для обработки продолжительности в запросах, переданных, как количество минут
     @JsonGetter("duration")

@@ -22,4 +22,6 @@ public class User {
     LocalDate birthday;
     @EqualsAndHashCode.Exclude
     Set<User> friends = new HashSet<>();
+    @EqualsAndHashCode.Exclude
+    FriendStatus friendStatus;
 }
