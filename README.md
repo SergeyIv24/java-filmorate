@@ -1,7 +1,8 @@
 # java-filmorate
 Template repository for Filmorate project.
+![dateBaseFilmoRate.png](dateBaseFilmoRate.png)  (dateBase)
 
-![dateBaseFilmoRate.png](dateBaseFilmoRate.png) (dateBase)
+
 
 Таблица user хранит всех пользователей с основной информацией о них.
 
