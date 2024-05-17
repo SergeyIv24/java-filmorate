@@ -20,10 +20,10 @@ public class User {
     String email;
     //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate birthday;
+
+
+
     @Deprecated
     @EqualsAndHashCode.Exclude
     Set<User> friends = new HashSet<>();
-    @Deprecated
-    @EqualsAndHashCode.Exclude
-    FriendStatus friendStatus;
 }

@@ -23,14 +23,7 @@ public class Film {
     //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate releaseDate;
     Duration duration;
-    @EqualsAndHashCode.Exclude
-    Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
-    @EqualsAndHashCode.Exclude
-    FilmGenre genre;
-    @EqualsAndHashCode.Exclude
-    ageRating rating;
-
-
+    int rating_id;
 
     //Методы для обработки продолжительности в запросах, переданных, как количество минут
     @JsonGetter("duration")
@@ -42,4 +35,8 @@ public class Film {
     public void durationInMinutes(long duration) {
         this.duration = Duration.ofMinutes(duration);
     }
+
+    @Deprecated
+    @EqualsAndHashCode.Exclude
+    Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
 }
