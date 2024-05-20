@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
-
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
@@ -29,9 +28,7 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
 
     @Override
     public Collection<User> getFriendsUserById(Long userId) {
-        if (getOnePosition(SQLqueries.GET_USER_BY_ID, userId).isEmpty()) {
-            throw new NotFoundException("Пользователь не найден");
-        }
+        isUserExist(userId);
         return getAllItems(SQLqueries.GET_USERS_FRIENDS, userId);
     }
 
@@ -58,27 +55,34 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
     @Override
     public Collection<User> findCommonFriends(Long userId, Long otherId) {
         //Проверка наличия пользователей в базе
-        if (getOnePosition(SQLqueries.GET_USER_BY_ID, userId).isEmpty()
-                || getOnePosition(SQLqueries.GET_USER_BY_ID, otherId).isEmpty()) {
-            throw new NotFoundException("Пользователь не найден");
-        }
+        isUserExist(userId);
+        isUserExist(otherId);
         return getAllItems(SQLqueries.GET_COMMON_FRIENDS, userId, otherId);
-    }
-
-    @Override
-    public void makeUsersFriends() {
-
-    }
-
-    @Override
-    public void deleteFromFriends() {
-
     }
 
     @Override
     public Map<Long, User> getUsers() {
         return null;
     }
+
+
+    public void makeUsersFriends(Long userId, Long friendId) {
+        isUserExist(userId);
+        isUserExist(friendId);
+        insert(SQLqueries.MAKE_FRIENDS, userId, friendId);
+    }
+
+    public void deleteFromFriends(Long userId, Long friendId) {
+        isUserExist(userId);
+        isUserExist(friendId);
+        deleteItem(SQLqueries.DELETE_FRIEND, userId, friendId);
+
+    }
+
+/*    @Override
+    public Map<Long, User> getUsers() {
+        return null;
+    }*/
 
     private void isUserExist(Long userId) {
         if (getUser(userId).isEmpty()) {
@@ -87,7 +91,6 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
         }
     }
 
-    //todo сделать defaul в интерфейсе
     private void validate(User newUser) {
         if (newUser.getEmail().isEmpty() || newUser.getEmail().isBlank()) {
             log.warn("Пользователь не указал Email");

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.InMemoryStoroges;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,10 +7,13 @@ import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.UserStorage;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Component
@@ -18,14 +21,10 @@ public class InMemoryUserStorage implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     Map<Long, User> users = new HashMap<>(); //Мапа для хранения пользователей
 
+
     @Override
     public Map<Long, User> getUsers() {
         return users;
-    }
-
-    public Collection<User> getFriendsUserById(Long userId) {
-        isUserExist(userId);
-        return users.get(userId).getFriends();
     }
 
     public Collection<User> getAllUsers() {
@@ -33,9 +32,14 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User getUser(Long userId) {
+    public Optional<User> getUser(Long userId) {
         isUserExist(userId);
-        return users.get(userId);
+        return Optional.of(users.get(userId));
+    }
+
+    public Collection<User> getFriendsUserById(Long userId) {
+        isUserExist(userId);
+        return users.get(userId).getFriends();
     }
 
     @Override
@@ -63,6 +67,11 @@ public class InMemoryUserStorage implements UserStorage {
     public User deleteUser(User user) {
         isUserExist(user.getUserId());
         return users.remove(user.getUserId());
+    }
+
+    @Override
+    public Collection<User> findCommonFriends(Long userId, Long otherId) {
+       return null;
     }
 
     private Long parseId() {

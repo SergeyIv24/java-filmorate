@@ -22,13 +22,20 @@ public class SQLqueries {
                     "FROM (" +
                         "SELECT FRIEND_USER_ID" +
                         "FROM FRIENDS AS f" +
-                        "WHERE USER_ID = ?" +
+                        "WHERE USER_ID = ? AND STATUS_ID = 1" +
                         ") AS f1" +
                     "JOIN (" +
                         "SELECT FRIEND_USER_ID" +
                         "FROM FRIENDS AS fr" +
-                        "WHERE USER_ID = ?" +
+                        "WHERE USER_ID = ? AND STATUS_ID = 1" +
                         ") AS f2 ON f2.FRIEND_USER_ID = f1.FRIEND_USER_ID)";
+
+    public static final String MAKE_FRIENDS = "INSERT INTO FRIENDS (USER_ID, FRIEND_USER_ID, STATUS_ID)" +
+            "VALUES (?, ?, 1)";
+
+    public static final String DELETE_FRIEND = "DELETE FROM FRIENDS" +
+            "WHERE USER_ID = ?" +
+            "AND FRIEND_USER_ID = ?;";
 
 
 
