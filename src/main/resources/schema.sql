@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     login varchar NOT NULL,
     name varchar NOT NULL,
     email varchar NOT NULL,
-    birth_day date
+    birth_day date NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS status (
