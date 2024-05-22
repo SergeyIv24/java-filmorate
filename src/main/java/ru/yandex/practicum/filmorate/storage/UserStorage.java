@@ -27,4 +27,5 @@ public interface UserStorage {
     void deleteFromFriends();*/
 
     Map<Long, User> getUsers();
+
 }

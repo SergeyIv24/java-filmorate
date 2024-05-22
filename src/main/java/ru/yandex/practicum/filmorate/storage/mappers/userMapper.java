@@ -13,8 +13,8 @@ public class userMapper implements RowMapper<User> {
     @Override
     public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         User user = new User();
-        user.setUserId(resultSet.getLong("id"));
-        user.setName(resultSet.getString("login"));
+        user.setId(resultSet.getLong("user_id"));
+        user.setLogin(resultSet.getString("login"));
         user.setName(resultSet.getString("name"));
         user.setEmail(resultSet.getString("email"));
         LocalDate birthDay = resultSet.getTimestamp("birth_day").toLocalDateTime().toLocalDate();

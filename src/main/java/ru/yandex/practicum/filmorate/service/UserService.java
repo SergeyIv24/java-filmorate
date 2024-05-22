@@ -43,6 +43,7 @@ public class UserService {
     //Метод добавления пользователя в друзья
     public void addUserInFriends(Long userId, Long friendId) {
         userStorage.makeUsersFriends(userId, friendId);
+        //userStorage.makeUsersFriends(friendId, userId);
 
 /*        checkExistUser(userId, friendId); //Проверка, что пользователи существуют
         if (userStorage.getUsers().get(userId).getFriends().contains(userStorage.getUsers().get(friendId))
@@ -57,6 +58,7 @@ public class UserService {
     //Метод удаления пользователя из друзей
     public void deleteUserFromFriends(Long userId, Long friendId) {
         userStorage.deleteFromFriends(userId, friendId);
+        //userStorage.deleteFromFriends(friendId, userId);
 /*        checkExistUser(userId, friendId);
         userStorage.getUsers().get(userId).getFriends().remove(userStorage.getUsers().get(friendId)); //Удаление у обоих пользователей
         userStorage.getUsers().get(friendId).getFriends().remove(userStorage.getUsers().get(userId));*/

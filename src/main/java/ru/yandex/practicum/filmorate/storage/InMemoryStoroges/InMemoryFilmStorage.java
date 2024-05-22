@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Component
@@ -31,8 +32,8 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film getFilm(Long filmId) {
-        return films.get(filmId);
+    public Optional<Film> getFilm(Long filmId) {
+        return Optional.of(films.get(filmId));
     }
 
     @Override

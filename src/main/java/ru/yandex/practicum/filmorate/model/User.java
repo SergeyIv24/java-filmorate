@@ -12,7 +12,7 @@ import java.util.Set;
 @Data
 @JsonIgnoreProperties("friends")
 public class User {
-    Long userId;
+    Long id;
     @NotBlank
     String login;
     String name;

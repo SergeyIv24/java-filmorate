@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.storage.FilmDbStorage;
+import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService {
     private static final Logger log = LoggerFactory.getLogger(FilmService.class);
-    private final FilmStorage filmStorage;
-    private final UserStorage userStorage;
+    private final FilmDbStorage filmStorage;
+    private final UserDbStorage userStorage;
 
     @Autowired
-    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
+    public FilmService(FilmDbStorage filmStorage, UserDbStorage userStorage) {
         this.filmStorage = filmStorage;
         this.userStorage = userStorage;
     }
 
     public Film getFilmById(Long filmId) {
-        return filmStorage.getFilm(filmId);
+        return filmStorage.getFilm(filmId).get();
     }
 
     public Collection<Film> getAllFilms() {
@@ -34,6 +34,7 @@ public class FilmService {
     }
 
     public Film addFilm(Film newFilm) {
+
         return filmStorage.addFilm(newFilm);
     }
 

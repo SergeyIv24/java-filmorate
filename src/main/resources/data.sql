@@ -1,28 +1,46 @@
+INSERT INTO ratings (name)
+SELECT 'G'
+WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
+INSERT INTO ratings (name)
+SELECT 'PG'
+WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
+INSERT INTO ratings (name)
+SELECT 'PG-13'
+WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
+INSERT INTO ratings (name)
+SELECT 'R'
+WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
+INSERT INTO ratings (name)
+SELECT 'NC-17'
+WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
+--INSERT INTO ratings (name)
+--SELECT 'nun'
+--WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 6;
+
+
+
 INSERT INTO status (status_name)
-VALUES ('accepted');
+SELECT ('accepted')
+WHERE (SELECT COUNT(status_name)  FROM status) < 2;
 INSERT INTO status (status_name)
-VALUES ('unaccepted');
+SELECT ('unaccepted')
+WHERE (SELECT COUNT(status_name)  FROM status) < 2;
 
 INSERT INTO geners (gener_name)
-VALUES('Documentary');
+SELECT('Комедия')
+WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
 INSERT INTO geners (gener_name)
-VALUES('Thriller');
+SELECT('Драма')
+WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
 INSERT INTO geners (gener_name)
-VALUES('Action');
+SELECT('Мультфильм')
+WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
 INSERT INTO geners (gener_name)
-VALUES('Comedy');
+SELECT('Триллер')
+WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
 INSERT INTO geners (gener_name)
-VALUES('Drama');
+SELECT('Документальный')
+WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
 INSERT INTO geners (gener_name)
-VALUES('Cartoon');
-
-INSERT INTO ratings (name)
-VALUES('G');
-INSERT INTO ratings (name)
-VALUES('PG');
-INSERT INTO ratings (name)
-VALUES('PG-13');
-INSERT INTO ratings (name)
-VALUES('R');
-INSERT INTO ratings (name)
-VALUES('NC-17');
+SELECT('Боевик')
+WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;

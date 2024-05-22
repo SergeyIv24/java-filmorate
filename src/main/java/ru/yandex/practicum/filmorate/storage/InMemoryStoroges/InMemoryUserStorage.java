@@ -45,28 +45,28 @@ public class InMemoryUserStorage implements UserStorage {
     @Override
     public User addUser(User newUser) {
         validate(newUser);
-        newUser.setUserId(parseId());
-        users.put(newUser.getUserId(), newUser);
+        newUser.setId(parseId());
+        users.put(newUser.getId(), newUser);
         return newUser;
     }
 
     @Override
     public User updateUser(User user) {
 
-        if (user.getUserId() == null) {
+        if (user.getId() == null) {
             log.warn("Не указан Id");
             throw new ValidationException("Id должен быть указан");
         }
-        isUserExist(user.getUserId());
+        isUserExist(user.getId());
         validate(user);
-        users.put(user.getUserId(), user);
+        users.put(user.getId(), user);
         return user;
     }
 
     @Override
     public User deleteUser(User user) {
-        isUserExist(user.getUserId());
-        return users.remove(user.getUserId());
+        isUserExist(user.getId());
+        return users.remove(user.getId());
     }
 
     @Override

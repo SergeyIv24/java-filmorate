@@ -9,11 +9,18 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+
 
 public class BaseStorage <T> extends Storage<T> {
     protected JdbcTemplate jdbcTemplate;
     protected RowMapper<T> mapper;
+
+    public BaseStorage(JdbcTemplate jdbcTemplate, RowMapper<T> mapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.mapper = mapper;
+    }
 
     @Override //todo убрать null???
     public Collection<T> getAllItems(String query) {
@@ -65,6 +72,14 @@ public class BaseStorage <T> extends Storage<T> {
             return id;
         } else {
             throw new ValidationException("Не удалось сохранить данные");
+        }
+    }
+
+    public void insertMany(String query, List<String> parameters) {
+        for (String parameter : parameters) {
+            Integer filmId = Integer.parseInt(parameter.substring(1));
+            Integer genre = Integer.parseInt(parameter.substring(0, 1));
+            jdbcTemplate.update(query, genre, filmId);
         }
     }
 

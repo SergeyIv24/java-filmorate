@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -15,6 +17,10 @@ import java.util.Optional;
 @Repository
 public class UserDbStorage extends BaseStorage<User> implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
+    public UserDbStorage(JdbcTemplate jdbcTemplate, RowMapper<User> mapper) {
+        super(jdbcTemplate, mapper);
+    }
 
     @Override
     public Collection<User> getAllUsers() {
@@ -34,21 +40,33 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
 
     @Override
     public User addUser(User user) {
-        Long id = insert(SQLqueries.ADD_USER, user.getLogin(), user.getName(), user.getEmail(), user.getBirthday());
-        user.setUserId(id);
+        validate(user);
+        Long id = insert(SQLqueries.ADD_USER,
+                user.getLogin(),
+                user.getName(),
+                user.getEmail(),
+                user.getBirthday());
+        user.setId(id);
         return user;
     }
 
     @Override
     public User updateUser(User user) {
-        update(SQLqueries.UPDATE_USER, user.getLogin(), user.getName(), user.getEmail(), user.getBirthday());
+        isUserExist(user.getId()); //Проверка, что пользователь есть в БД
+        validate(user); //Проверка корректности полей
+        update(SQLqueries.UPDATE_USER,
+                user.getLogin(),
+                user.getName(),
+                user.getEmail(),
+                user.getBirthday(),
+                user.getId());
         return user;
     }
 
     @Override
     public User deleteUser(User user) {
-        isUserExist(user.getUserId());
-        deleteItem(SQLqueries.DROP_USER, user.getUserId());
+        isUserExist(user.getId());
+        deleteItem(SQLqueries.DROP_USER, user.getId());
         return user;
     }
 
@@ -78,11 +96,6 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
         deleteItem(SQLqueries.DELETE_FRIEND, userId, friendId);
 
     }
-
-/*    @Override
-    public Map<Long, User> getUsers() {
-        return null;
-    }*/
 
     private void isUserExist(Long userId) {
         if (getUser(userId).isEmpty()) {
@@ -117,5 +130,4 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
             throw new ValidationException("Вы еще не родились(");
         }
     }
-
 }

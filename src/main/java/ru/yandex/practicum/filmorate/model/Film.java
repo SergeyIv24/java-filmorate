@@ -8,7 +8,9 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,7 +25,11 @@ public class Film {
     //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate releaseDate;
     Duration duration;
-    int rating_id;
+    Integer rating_id;
+    @EqualsAndHashCode.Exclude
+    List<Integer> genres = new ArrayList<>();
+    @EqualsAndHashCode.Exclude
+    Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
 
     //Методы для обработки продолжительности в запросах, переданных, как количество минут
     @JsonGetter("duration")
@@ -36,7 +42,6 @@ public class Film {
         this.duration = Duration.ofMinutes(duration);
     }
 
-    @Deprecated
-    @EqualsAndHashCode.Exclude
-    Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
+
+
 }
