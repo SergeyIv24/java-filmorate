@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Mpa;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
@@ -23,8 +22,10 @@ public class filmMapper implements RowMapper<Film> {
         Duration duration = Duration.ofMinutes(rs.getInt("DURATION"));
         film.setDuration(duration);
         Integer mpaId = rs.getInt("RATING_ID");
+        String mpaName = rs.getString("Mpa_name");
         Mpa mpa = new Mpa();
         mpa.setId(mpaId);
+        mpa.setName(mpaName);
         film.setMpa(mpa);
         return film;
     }

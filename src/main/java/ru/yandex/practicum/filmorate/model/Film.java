@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,8 +9,8 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,8 +26,10 @@ public class Film {
     Duration duration;
     Mpa mpa;
     @EqualsAndHashCode.Exclude
-    List<Genre> genres;
+    Collection<Genre> genres;
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @Deprecated
     Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
 
     //Методы для обработки продолжительности в запросах, переданных, как количество минут

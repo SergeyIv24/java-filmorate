@@ -9,7 +9,6 @@ import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -75,16 +74,8 @@ public class BaseStorage <T> extends Storage<T> {
         }
     }
 
-    public void insertMany(String query, Integer genreId, Long filmId) {
-        jdbcTemplate.update(query, genreId, filmId);
-    }
-
-    public void insertMany(String query, List<String> parameters) {
-        for (String parameter : parameters) {
-            Integer filmId = Integer.parseInt(parameter.substring(1));
-            Integer genre = Integer.parseInt(parameter.substring(0, 1));
-            jdbcTemplate.update(query, genre, filmId);
-        }
+    public void insertMany(String query, Long id, Long anotherId) {
+        jdbcTemplate.update(query, id, anotherId);
     }
 
     @Override

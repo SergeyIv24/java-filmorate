@@ -45,35 +45,53 @@ public class SQLqueries {
             "RATING_ID = ? " +
             "WHERE FILMS_ID = ?";
 
-    static final String GET_FILM_BY_ID = "SELECT * " +
-            "FROM FILMS f " +
-            "WHERE FILMS_ID = ?";
+    static final String GET_FILM_BY_ID = "SELECT f.FILMS_ID, " +
+            "f.NAME, " +
+            "f.DESCRIPTION, " +
+            "f.RELEASE_DATE, " +
+            "f.DURATION, " +
+            "f.RATING_ID, " +
+            "r.NAME AS Mpa_name  " +
+            "FROM FILMS AS f " +
+            "INNER JOIN RATINGS AS r ON f.RATING_ID  = r.RATING_ID " +
+            "WHERE f.FILMS_ID = ?";
 
-    static final String GET_ALL_FILMS = "SELECT * FROM films";
+    static final String GET_ALL_FILMS = "SELECT f.FILMS_ID, " +
+            "f.NAME, " +
+            "f.DESCRIPTION, " +
+            "f.RELEASE_DATE,  " +
+            "f.DURATION, " +
+            "f.RATING_ID, " +
+            "r.NAME AS Mpa_name " +
+            "FROM films AS f " +
+            "INNER JOIN RATINGS r ON r.RATING_ID = f.RATING_ID  ";
 
-    static final String ADD_LIKE_TO_FILM = "INSERT INTO WHO_LIKED (FILMS_ID, USER_ID)" +
+    static final String ADD_LIKE_TO_FILM = "INSERT INTO WHO_LIKED (FILMS_ID, USER_ID) " +
             "VALUES (?, ?)";
 
-    static final String DELETE_LIKE = "DELETE FROM WHO_LIKED" +
+    static final String DELETE_LIKE = "DELETE FROM WHO_LIKED " +
             "WHERE FILMS_ID = ?" +
             "AND USER_ID = ?";
 
     static final String GET_POPULAR = "SELECT f.FILMS_ID," +
-            "f.NAME," +
-            "f.DESCRIPTION," +
-            "f.RELEASE_DATE," +
-            "f.DURATION," +
-            "f.RATING_ID" +
-            "FROM FILMS AS f" +
-            "INNER JOIN (" +
-                "SELECT FILMS_ID, COUNT (USER_ID) AS popular" +
-                "FROM WHO_LIKED AS WL" +
-                "GROUP BY FILMS_ID" +
-                "ORDER BY popular DESC" +
-                "LIMIT ?" +
-            ") AS pop ON pop.FILMS_ID = f.FILMS_ID ";
-
-    static final String DELETE_FILM = ""; //todo не удаляет из за целостности
+            "f.NAME, " +
+            "f.DESCRIPTION, " +
+            "f.RELEASE_DATE, " +
+            "f.DURATION, " +
+            "f.RATING_ID, " +
+            "rat.NAME AS Mpa_name " +
+            "FROM FILMS AS f " +
+            "INNER JOIN ( " +
+                "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
+                "FROM WHO_LIKED AS WL " +
+                "GROUP BY FILMS_ID " +
+                "ORDER BY popular DESC " +
+                "LIMIT ? " +
+            ") AS pop ON pop.FILMS_ID = f.FILMS_ID " +
+            "INNER JOIN ( " +
+                "SELECT * " +
+                "FROM RATINGS AS r " +
+            ") AS rat ON rat.RATING_ID = f.RATING_ID  ";
 
     static final String ADD_GENRE = "INSERT INTO FILMS_GENERS (GENER_ID, FILMS_ID) " +
             "VALUES (?, ?)";
@@ -87,8 +105,15 @@ public class SQLqueries {
             "FROM FILMS AS f " +
             "INNER JOIN FILMS_GENERS AS fg ON f.FILMS_ID = fg.FILMS_ID";
 
-    static final String FIND_ALL_GENRES_OF_FILM = "SELECT GENER_ID  " +
+    static final String FIND_ALL_GENRES_OF_FILM1 = "SELECT GENER_ID  " +
             "FROM FILMS_GENERS " +
+            "WHERE FILMS_ID = ?";
+
+    static final String FIND_ALL_GENRES_OF_FILM = "SELECT fg.FILMS_ID, " +
+            "fg.GENER_ID, " +
+            "g.GENER_NAME  " +
+            "FROM FILMS_GENERS AS fg " +
+            "INNER JOIN GENERS AS g ON g.GENER_ID  = FG.GENER_ID  " +
             "WHERE FILMS_ID = ?";
 
     static final String GET_GENRE_BY_ID = "SELECT *  " +

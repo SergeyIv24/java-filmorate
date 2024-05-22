@@ -29,11 +29,11 @@ public class FilmController {
 
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Film> getAllFilms(@RequestParam int count) { //Получение популярных фильмов
-        if (count != 0) {
-            return filmService.getSomePopularFilms(count);
+    public Collection<Film> getAllFilms(@RequestParam Integer count) { //Получение популярных фильмов
+        if (count == null) {
+            count = 10;
         }
-        return filmService.getAllFilms();
+        return filmService.getSomePopularFilms(count);
     }
 
     @PostMapping

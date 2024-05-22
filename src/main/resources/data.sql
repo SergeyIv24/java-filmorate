@@ -13,11 +13,6 @@ WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
 INSERT INTO ratings (name)
 SELECT 'NC-17'
 WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 5;
---INSERT INTO ratings (name)
---SELECT 'nun'
---WHERE (SELECT COUNT(NAME)  FROM RATINGS) < 6;
-
-
 
 INSERT INTO status (status_name)
 SELECT ('accepted')

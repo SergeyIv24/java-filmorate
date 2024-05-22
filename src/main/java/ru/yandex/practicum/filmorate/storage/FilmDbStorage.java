@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
@@ -24,7 +25,6 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
 
     @Override
     public Collection<Film> getAllFilms() {
-        //Collection<Film> filmsWithGenres = getAllItems(SQLqueries.FIND_FILMS_WITH_GENRE); //Все фильмы у которых есть жанры
         return getAllItems(SQLqueries.GET_ALL_FILMS); //Все фильмы
     }
 
@@ -39,15 +39,10 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
                 newFilm.getName(),
                 newFilm.getDescription(),
                 newFilm.getReleaseDate(),
-                newFilm.getDuration(),
+                newFilm.getDuration().toMinutes(),
                 newFilm.getMpa().getId());
         newFilm.setId(id);
-
-        if (newFilm.getGenres() != null) {
-            for (Genre genre : newFilm.getGenres()) {
-                insertMany(SQLqueries.ADD_GENRE, genre.getId(), id);
-            }
-        }
+        setGenres(newFilm, id);
         return newFilm;
     }
 
@@ -60,12 +55,36 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
                 film.getDuration(),
                 film.getMpa().getId(),
                 film.getId());
+        //setGenres(film, film.getId());
         return film;
     }
 
     @Override
     public Film deleteFilm(Film film) {
-        deleteItem(SQLqueries.DELETE_FILM, film.getId());
+        //deleteItem(SQLqueries.DELETE_FILM, film.getId());
         return film;
+    }
+
+    private void setGenres(Film newFilm, Long id) {
+        if (newFilm.getGenres() != null) {
+            Set<Genre> uniqueGenres = Set.copyOf(newFilm.getGenres());
+            for (Genre genre : uniqueGenres) {
+                insertMany(SQLqueries.ADD_GENRE, Long.valueOf(genre.getId()), id);
+            }
+        }
+    }
+
+
+
+    public void addLikeToFilm(Long userId, Long filmId) {
+        insertMany(SQLqueries.ADD_LIKE_TO_FILM, filmId, userId);
+    }
+
+    public void deleteLike(Long filmId, Long userId) {
+        deleteItem(SQLqueries.DELETE_LIKE, filmId, userId);
+    }
+
+    public Collection<Film> findSomePopular(Integer amount) {
+        return getAllItems(SQLqueries.GET_POPULAR, amount);
     }
 }

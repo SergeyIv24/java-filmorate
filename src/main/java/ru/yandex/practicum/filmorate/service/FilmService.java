@@ -8,29 +8,31 @@ import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.storage.Constance;
-import ru.yandex.practicum.filmorate.storage.FilmDbStorage;
-import ru.yandex.practicum.filmorate.storage.UserDbStorage;
+import ru.yandex.practicum.filmorate.storage.*;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
     private static final Logger log = LoggerFactory.getLogger(FilmService.class);
     private final FilmDbStorage filmStorage;
     private final UserDbStorage userStorage;
+    private final GenreStorage genreStorage;
 
     @Autowired
-    public FilmService(FilmDbStorage filmStorage, UserDbStorage userStorage) {
+    public FilmService(FilmDbStorage filmStorage, UserDbStorage userStorage, GenreStorage genreStorage) {
         this.filmStorage = filmStorage;
         this.userStorage = userStorage;
+        this.genreStorage = genreStorage;
     }
 
     public Film getFilmById(Long filmId) {
-        return filmStorage.getFilm(filmId).get();
+
+        Collection<Genre> genres = genreStorage.findAllFilmGenre(filmId);
+        Film film = filmStorage.getFilm(filmId).get();
+        film.setGenres(genres);
+        return film;
     }
 
     public Collection<Film> getAllFilms() {
@@ -38,11 +40,13 @@ public class FilmService {
     }
 
     public Film addFilm(Film newFilm) {
+        isItDuplicate(newFilm.getId());
         validate(newFilm);
         return filmStorage.addFilm(newFilm);
     }
 
     public Film updateFilm(Film film) {
+        isFilmExist(film.getId());
         validate(film);
         return filmStorage.updateFilm(film);
     }
@@ -50,38 +54,37 @@ public class FilmService {
     public void addLikeToFilm(Long userId, Long filmId) {
         isFilmExist(filmId);
         isUserExist(userId);
-        filmStorage.getFilms().get(filmId).getUsersWhoLiked().add(userId);
+        filmStorage.addLikeToFilm(userId, filmId);
     }
 
     //Метод удаления лайка с фильма
     public void deleteLike(Long filmId, Long userId) {
         isFilmExist(filmId);
         isUserExist(userId);
-        filmStorage.getFilms().get(filmId).getUsersWhoLiked().remove(userId);
+        filmStorage.deleteLike(filmId, userId);
     }
 
-    public List<Film> getSomePopularFilms(int amountOfFilms) {
-        if (amountOfFilms == 0) {
-            amountOfFilms = 10;
-        }
-
-        return filmStorage.getFilms().values().stream().sorted((film1, film2) -> { //Сравнение по количеству лайков (убыванию)
-            Integer countOfLikes1 = film1.getUsersWhoLiked().size();
-            Integer countOfLikes2 = film2.getUsersWhoLiked().size();
-            return countOfLikes2.compareTo(countOfLikes1);
-        }).limit(amountOfFilms).collect(Collectors.toList());
+    public Collection<Film> getSomePopularFilms(int amountOfFilms) {
+        return filmStorage.findSomePopular(amountOfFilms);
     }
 
     private void isFilmExist(Long filmId) {
-        if (!filmStorage.getFilms().containsKey(filmId)) {
-            log.warn("Фильма нет в мапе");
+        if (filmStorage.getFilm(filmId).isEmpty()) {
+            log.warn("Фильма не существует");
             throw new NotFoundException("Фильма с таким id не существует");
         }
     }
 
+    private void isItDuplicate(Long filmId) {
+        if (filmStorage.getFilm(filmId).isPresent()) {
+            log.warn("Фильма уже существует");
+            throw new ValidationException("Фильм уже существует");
+        }
+    }
+
     private void isUserExist(Long userId) {
-        if (!userStorage.getUsers().containsKey(userId)) {
-            log.warn("Пользователя нет в мапе");
+        if (userStorage.getUser(userId).isEmpty()) {
+            log.warn("Пользователь не существует");
             throw new NotFoundException("Пользователь с таким id не существует");
         }
     }
@@ -121,5 +124,6 @@ public class FilmService {
                 }
             }
         }
+
     }
 }
