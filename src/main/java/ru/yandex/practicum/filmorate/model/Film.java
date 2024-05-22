@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotBlank;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,12 +21,11 @@ public class Film {
     @NotBlank
     String name;
     String description;
-    //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate releaseDate;
     Duration duration;
-    Integer rating_id;
+    Mpa mpa;
     @EqualsAndHashCode.Exclude
-    List<Integer> genres = new ArrayList<>();
+    List<Genre> genres;
     @EqualsAndHashCode.Exclude
     Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
 

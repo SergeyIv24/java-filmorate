@@ -75,6 +75,10 @@ public class BaseStorage <T> extends Storage<T> {
         }
     }
 
+    public void insertMany(String query, Integer genreId, Long filmId) {
+        jdbcTemplate.update(query, genreId, filmId);
+    }
+
     public void insertMany(String query, List<String> parameters) {
         for (String parameter : parameters) {
             Integer filmId = Integer.parseInt(parameter.substring(1));
