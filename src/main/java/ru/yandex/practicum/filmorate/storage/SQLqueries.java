@@ -96,19 +96,6 @@ public class SQLqueries {
     static final String ADD_GENRE = "INSERT INTO FILMS_GENERS (GENER_ID, FILMS_ID) " +
             "VALUES (?, ?)";
 
-    static final String FIND_FILMS_WITH_GENRE = "SELECT f.FILMS_ID, " +
-            "f.NAME, " +
-            "f.DESCRIPTION, " +
-            "f.RELEASE_DATE, " +
-            "f.DURATION, " +
-            "f.RATING_ID  " +
-            "FROM FILMS AS f " +
-            "INNER JOIN FILMS_GENERS AS fg ON f.FILMS_ID = fg.FILMS_ID";
-
-    static final String FIND_ALL_GENRES_OF_FILM1 = "SELECT GENER_ID  " +
-            "FROM FILMS_GENERS " +
-            "WHERE FILMS_ID = ?";
-
     static final String FIND_ALL_GENRES_OF_FILM = "SELECT fg.FILMS_ID, " +
             "fg.GENER_ID, " +
             "g.GENER_NAME  " +

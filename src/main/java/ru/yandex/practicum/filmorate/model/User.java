@@ -18,10 +18,7 @@ public class User {
     String name;
     @Email @NotBlank
     String email;
-    //@JsonFormat(pattern = "dd.MM.yyyy") //Более читаемая дата, коммент так как не проходят тесты
     LocalDate birthday;
-
-
 
     @Deprecated
     @EqualsAndHashCode.Exclude

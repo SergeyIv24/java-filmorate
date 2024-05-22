@@ -55,13 +55,11 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
                 film.getDuration(),
                 film.getMpa().getId(),
                 film.getId());
-        //setGenres(film, film.getId());
         return film;
     }
 
-    @Override
+    @Override //todo убрать
     public Film deleteFilm(Film film) {
-        //deleteItem(SQLqueries.DELETE_FILM, film.getId());
         return film;
     }
 
@@ -73,8 +71,6 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
             }
         }
     }
-
-
 
     public void addLikeToFilm(Long userId, Long filmId) {
         insertMany(SQLqueries.ADD_LIKE_TO_FILM, filmId, userId);

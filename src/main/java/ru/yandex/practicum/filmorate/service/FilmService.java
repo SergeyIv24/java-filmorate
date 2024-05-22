@@ -28,7 +28,6 @@ public class FilmService {
     }
 
     public Film getFilmById(Long filmId) {
-
         Collection<Genre> genres = genreStorage.findAllFilmGenre(filmId);
         Film film = filmStorage.getFilm(filmId).get();
         film.setGenres(genres);

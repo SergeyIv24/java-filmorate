@@ -27,6 +27,7 @@ public class Film {
     Mpa mpa;
     @EqualsAndHashCode.Exclude
     Collection<Genre> genres;
+
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     @Deprecated
