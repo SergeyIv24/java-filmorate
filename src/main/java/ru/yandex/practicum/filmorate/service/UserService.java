@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
@@ -53,17 +52,5 @@ public class UserService {
     //Метод поиска общих друзей
     public Collection<User> getCommonFriends(Long userId, Long otherId) {
          return userStorage.findCommonFriends(userId, otherId);
-    }
-
-    private void checkExistUser(Long userId, Long friendId) {
-        if (!userStorage.getUsers().containsKey(userId)) {
-            log.warn("Пользователя нет в мапе");
-            throw new NotFoundException("Пользователь не существует");
-        }
-
-        if (!userStorage.getUsers().containsKey(friendId)) {
-            log.warn("Пользователя нет в мапе");
-            throw new NotFoundException("Пользователь не существует");
-        }
     }
 }
