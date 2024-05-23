@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Component
-public class userMapper implements RowMapper<User> {
+public class UserMapper implements RowMapper<User> {
     //Маппер для извлечения пользователей из БД
     @Override
     public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {

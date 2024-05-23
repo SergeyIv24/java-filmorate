@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 
 @Component
-public class filmMapper implements RowMapper<Film> {
+public class FilmMapper implements RowMapper<Film> {
     @Override
     public Film mapRow(ResultSet rs, int rowNum) throws SQLException {
         Film film = new Film();
