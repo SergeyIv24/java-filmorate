@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage.InMemoryStoroges;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -17,12 +18,11 @@ import java.util.Optional;
 
 
 @Component
+@Qualifier
 public class InMemoryUserStorage implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     Map<Long, User> users = new HashMap<>(); //Мапа для хранения пользователей
 
-
-    @Override
     public Map<Long, User> getUsers() {
         return users;
     }
@@ -52,7 +52,6 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User user) {
-
         if (user.getId() == null) {
             log.warn("Не указан Id");
             throw new ValidationException("Id должен быть указан");
@@ -64,14 +63,8 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User deleteUser(User user) {
-        isUserExist(user.getId());
-        return users.remove(user.getId());
-    }
-
-    @Override
     public Collection<User> findCommonFriends(Long userId, Long otherId) {
-       return null;
+        return null;
     }
 
     private Long parseId() {

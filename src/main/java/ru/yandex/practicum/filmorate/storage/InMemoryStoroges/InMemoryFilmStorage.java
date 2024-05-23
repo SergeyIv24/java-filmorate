@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage.InMemoryStoroges;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
@@ -16,12 +17,12 @@ import java.util.Optional;
 
 
 @Component
+@Qualifier
 public class InMemoryFilmStorage implements FilmStorage {
 
     private static final Logger log = LoggerFactory.getLogger(InMemoryFilmStorage.class);
     Map<Long, Film> films = new HashMap<>(); //Мапа для хранения фильмов
 
-    @Override
     public Map<Long, Film> getFilms() {
         return films;
     }
@@ -59,15 +60,6 @@ public class InMemoryFilmStorage implements FilmStorage {
         validate(film); //Валидация
         films.put(film.getId(), film);
         return film;
-    }
-
-    @Override
-    public Film deleteFilm(Film film) {
-        if (!films.containsKey(film.getId())) {
-            log.warn("Запрошен несуществующий фильм");
-            throw new NotFoundException("Фильм не существует");
-        }
-        return films.remove(film.getId());
     }
 
     private Long parseId() {

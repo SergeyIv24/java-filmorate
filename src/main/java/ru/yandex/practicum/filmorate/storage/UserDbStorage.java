@@ -9,9 +9,9 @@ import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -64,25 +64,12 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
     }
 
     @Override
-    public User deleteUser(User user) {
-        isUserExist(user.getId());
-        deleteItem(SQLqueries.DROP_USER, user.getId());
-        return user;
-    }
-
-    @Override
     public Collection<User> findCommonFriends(Long userId, Long otherId) {
         //Проверка наличия пользователей в базе
         isUserExist(userId);
         isUserExist(otherId);
         return getAllItems(SQLqueries.GET_COMMON_FRIENDS, userId, otherId);
     }
-
-    @Override
-    public Map<Long, User> getUsers() {
-        return null;
-    }
-
 
     public void makeUsersFriends(Long userId, Long friendId) {
         isUserExist(userId);

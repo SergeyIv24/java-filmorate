@@ -30,7 +30,6 @@ public class Film {
 
     @EqualsAndHashCode.Exclude
     @JsonIgnore
-    @Deprecated
     Set<Long> usersWhoLiked = new HashSet<>(); //Хранятся только id пользователь, кто поставил лайк
 
     //Методы для обработки продолжительности в запросах, переданных, как количество минут

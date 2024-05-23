@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
@@ -19,8 +20,6 @@ public class User {
     @Email @NotBlank
     String email;
     LocalDate birthday;
-
-    @Deprecated
     @EqualsAndHashCode.Exclude
     Set<User> friends = new HashSet<>();
 }

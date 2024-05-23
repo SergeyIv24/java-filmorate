@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 
-public class BaseStorage <T> extends Storage<T> {
+public class BaseStorage<T> extends Storage<T> {
     protected JdbcTemplate jdbcTemplate;
     protected RowMapper<T> mapper;
 
@@ -21,7 +21,7 @@ public class BaseStorage <T> extends Storage<T> {
         this.mapper = mapper;
     }
 
-    @Override //todo убрать null???
+    @Override
     public Collection<T> getAllItems(String query) {
         try {
             return jdbcTemplate.query(query, mapper);
@@ -62,7 +62,8 @@ public class BaseStorage <T> extends Storage<T> {
                     for (int idx = 0; idx < parameters.length; idx++) {
                         ps.setObject(idx + 1, parameters[idx]);
                     }
-                    return ps;},
+                    return ps;
+                },
                 keyHolder);
 
         Long id = keyHolder.getKeyAs(Long.class);
@@ -74,6 +75,7 @@ public class BaseStorage <T> extends Storage<T> {
         }
     }
 
+    @Override
     public void insertMany(String query, Long id, Long anotherId) {
         jdbcTemplate.update(query, id, anotherId);
     }

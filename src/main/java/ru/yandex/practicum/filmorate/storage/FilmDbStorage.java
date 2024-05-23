@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,11 +15,6 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
 
     public FilmDbStorage(JdbcTemplate jdbcTemplate, RowMapper<Film> mapper) {
         super(jdbcTemplate, mapper);
-    }
-
-    @Override
-    public Map<Long, Film> getFilms() {
-        return null;
     }
 
     @Override
@@ -55,11 +49,6 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
                 film.getDuration(),
                 film.getMpa().getId(),
                 film.getId());
-        return film;
-    }
-
-    @Override //todo убрать
-    public Film deleteFilm(Film film) {
         return film;
     }
 
