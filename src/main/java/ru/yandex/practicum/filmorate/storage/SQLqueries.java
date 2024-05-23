@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.storage;
 public class SQLqueries {
     static final String GET_ALL_USERS = "SELECT * FROM users;";
     static final String GET_USER_BY_ID = "SELECT * FROM users WHERE user_id = ?;";
-    static final String DROP_USER = "DELETE FROM users WHERE id = ?;";
     static final String ADD_USER = "INSERT INTO users(login, name, email, birth_day)" +
             "VALUES(?, ?, ?, ?);";
     static final String UPDATE_USER = "UPDATE users SET login = ?, name = ?, email = ?, birth_day = ? WHERE USER_ID = ?";
@@ -18,17 +17,17 @@ public class SQLqueries {
             "HAVING f.USER_ID = ?; ";
     static final String GET_COMMON_FRIENDS = "SELECT * FROM USERS AS u WHERE u.USER_ID IN " +
             "(" +
-            "SELECT f1.FRIEND_USER_ID " +
-            "FROM (" +
-            "SELECT FRIEND_USER_ID " +
-            "FROM FRIENDS AS f " +
-            "WHERE USER_ID = ? AND STATUS_ID = 1 " +
-            ") AS f1 " +
-            "JOIN ( " +
-            "SELECT FRIEND_USER_ID " +
-            "FROM FRIENDS AS fr " +
-            "WHERE USER_ID = ? AND STATUS_ID = 1 " +
-            ") AS f2 ON f2.FRIEND_USER_ID = f1.FRIEND_USER_ID) ";
+                "SELECT f1.FRIEND_USER_ID " +
+                    "FROM (" +
+                        "SELECT FRIEND_USER_ID " +
+                        "FROM FRIENDS AS f " +
+                        "WHERE USER_ID = ? AND STATUS_ID = 1 " +
+                        ") AS f1 " +
+                    "JOIN ( " +
+                        "SELECT FRIEND_USER_ID " +
+                        "FROM FRIENDS AS fr " +
+                        "WHERE USER_ID = ? AND STATUS_ID = 1 " +
+                        ") AS f2 ON f2.FRIEND_USER_ID = f1.FRIEND_USER_ID) ";
 
     static final String MAKE_FRIENDS = "INSERT INTO FRIENDS (USER_ID, FRIEND_USER_ID, STATUS_ID) " +
             "VALUES (?, ?, 1)";
@@ -82,15 +81,15 @@ public class SQLqueries {
             "rat.NAME AS Mpa_name " +
             "FROM FILMS AS f " +
             "INNER JOIN ( " +
-            "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
-            "FROM WHO_LIKED AS WL " +
-            "GROUP BY FILMS_ID " +
-            "ORDER BY popular DESC " +
-            "LIMIT ? " +
+                "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
+                "FROM WHO_LIKED AS WL " +
+                "GROUP BY FILMS_ID " +
+                "ORDER BY popular DESC " +
+                "LIMIT ? " +
             ") AS pop ON pop.FILMS_ID = f.FILMS_ID " +
             "INNER JOIN ( " +
-            "SELECT * " +
-            "FROM RATINGS AS r " +
+                "SELECT * " +
+                "FROM RATINGS AS r " +
             ") AS rat ON rat.RATING_ID = f.RATING_ID  ";
 
     static final String ADD_GENRE = "INSERT INTO FILMS_GENERS (GENER_ID, FILMS_ID) " +
