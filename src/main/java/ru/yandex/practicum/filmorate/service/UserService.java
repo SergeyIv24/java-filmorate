@@ -1,8 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
@@ -10,14 +8,9 @@ import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
-    UserDbStorage userStorage;
-
-    @Autowired
-    public UserService(UserDbStorage userStorage) {
-        this.userStorage = userStorage;
-    }
+    private final UserDbStorage userStorage;
 
     public User getUserById(Long userId) {
         return userStorage.getUser(userId).get();
@@ -51,6 +44,6 @@ public class UserService {
 
     //Метод поиска общих друзей
     public Collection<User> getCommonFriends(Long userId, Long otherId) {
-         return userStorage.findCommonFriends(userId, otherId);
+        return userStorage.findCommonFriends(userId, otherId);
     }
 }

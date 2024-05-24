@@ -1,31 +1,28 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.storage.*;
+import ru.yandex.practicum.filmorate.storage.Constance;
+import ru.yandex.practicum.filmorate.storage.FilmDbStorage;
+import ru.yandex.practicum.filmorate.storage.GenreStorage;
+import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class FilmService {
     private static final Logger log = LoggerFactory.getLogger(FilmService.class);
     private final FilmDbStorage filmStorage;
     private final UserDbStorage userStorage;
     private final GenreStorage genreStorage;
-
-    @Autowired
-    public FilmService(FilmDbStorage filmStorage, UserDbStorage userStorage, GenreStorage genreStorage) {
-        this.filmStorage = filmStorage;
-        this.userStorage = userStorage;
-        this.genreStorage = genreStorage;
-    }
 
     public Film getFilmById(Long filmId) {
         Collection<Genre> genres = genreStorage.findAllFilmGenre(filmId);
@@ -35,7 +32,12 @@ public class FilmService {
     }
 
     public Collection<Film> getAllFilms() {
-        return filmStorage.getAllFilms();
+        Collection<Film> films = filmStorage.getAllFilms();
+        for (Film film : films) {
+            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            film.setGenres(genres);
+        }
+        return films;
     }
 
     public Film addFilm(Film newFilm) {
@@ -64,7 +66,12 @@ public class FilmService {
     }
 
     public Collection<Film> getSomePopularFilms(int amountOfFilms) {
-        return filmStorage.findSomePopular(amountOfFilms);
+        Collection<Film> popularFilms = filmStorage.findSomePopular(amountOfFilms);
+        for (Film film : popularFilms) {
+            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            film.setGenres(genres);
+        }
+        return popularFilms;
     }
 
     private void isFilmExist(Long filmId) {
@@ -90,24 +97,9 @@ public class FilmService {
 
     //Валидация входных данных
     private void validate(Film film) {
-        if (film.getName().isEmpty() || film.getName().isBlank()) {
-            log.warn("Не заполнено название фильма");
-            throw new ValidationException("Название фильма должно быть заполнено");
-        }
-
-        if (film.getDescription().length() > 200) {
-            log.warn("Описание менее 200 символов");
-            throw new ValidationException("Описание должно быть менее 200 символов");
-        }
-
         if (film.getReleaseDate().isBefore(LocalDate.of(1895, 12, 28))) {
             log.warn("Не корректная дата");
             throw new ValidationException("Фильм не мог быть выпущен в эту дату.");
-        }
-
-        if (film.getDuration().toMinutes() <= 0) {
-            log.warn("Некорректная продолжительность");
-            throw new ValidationException("Продолжительность фильма должна быть положительной");
         }
 
         if (film.getMpa().getId() > Constance.mpaAmount) {

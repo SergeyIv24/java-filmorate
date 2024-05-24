@@ -30,10 +30,7 @@ public class FilmController {
 
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Film> getAllFilms(@RequestParam Integer count) { //Получение популярных фильмов
-        if (count == null) {
-            count = 10;
-        }
+    public Collection<Film> getAllFilms(@RequestParam(defaultValue = "10") Integer count) { //Получение популярных фильмов
         return filmService.getSomePopularFilms(count);
     }
 

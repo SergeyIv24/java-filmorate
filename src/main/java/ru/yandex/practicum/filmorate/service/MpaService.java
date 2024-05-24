@@ -1,24 +1,21 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.Constance;
 import ru.yandex.practicum.filmorate.storage.MpaStorage;
+
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class MpaService {
     private static final Logger log = LoggerFactory.getLogger(MpaService.class);
     private final MpaStorage mpaStorage;
-
-    @Autowired
-    public MpaService(MpaStorage mpaStorage) {
-        this.mpaStorage = mpaStorage;
-    }
 
     public Collection<Mpa> getAllMpa() {
         return mpaStorage.getAllMpa();
