@@ -68,11 +68,10 @@ public class BaseStorage<T> extends Storage<T> {
 
         Long id = keyHolder.getKeyAs(Long.class);
 
-        if (id != null) {
-            return id;
-        } else {
+        if (id == null) {
             throw new ValidationException("Не удалось сохранить данные");
         }
+        return id;
     }
 
     @Override
