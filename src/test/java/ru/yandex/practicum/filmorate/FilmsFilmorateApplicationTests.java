@@ -39,7 +39,8 @@ class FilmsFilmorateApplicationTests {
         String firstUser = "{\"name\": \"Inception\"," +
                 "\"description\": \"Film is about dreams\"," +
                 "\"releaseDate\": \"2010-07-22\"," +
-                "\"duration\": \"148\"}"; //Тело запроса
+                "\"duration\": \"148\"," +
+                "\"mpa\": { \"id\": 1}}"; //Тело запроса
         HttpRequest requestPost = HttpRequest.newBuilder()
                 .POST(HttpRequest.BodyPublishers.ofString(firstUser))
                 .setHeader("Accept", "application/json")

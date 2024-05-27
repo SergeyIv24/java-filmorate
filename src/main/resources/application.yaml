@@ -1,6 +1,14 @@
 spring:
   main:
     banner-mode: off
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:h2:file:./db/filmorate
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
 
 server:
   port: 8080

@@ -2,79 +2,90 @@ package ru.yandex.practicum.filmorate.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
-
-@Component
-public class InMemoryUserStorage implements UserStorage {
+@Repository
+public class UserDbStorage extends BaseStorage<User> implements UserStorage {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    Map<Long, User> users = new HashMap<>(); //Мапа для хранения пользователей
 
-    @Override
-    public Map<Long, User> getUsers() {
-        return users;
+    public UserDbStorage(JdbcTemplate jdbcTemplate, RowMapper<User> mapper) {
+        super(jdbcTemplate, mapper);
     }
 
+    @Override
+    public Collection<User> getAllUsers() {
+        return getAllItems(SQLqueries.GET_ALL_USERS);
+    }
+
+    @Override
+    public Optional<User> getUser(Long userId) {
+        return getOnePosition(SQLqueries.GET_USER_BY_ID, userId);
+    }
+
+    @Override
     public Collection<User> getFriendsUserById(Long userId) {
         isUserExist(userId);
-        return users.get(userId).getFriends();
-    }
-
-    public Collection<User> getAllUsers() {
-        return users.values();
+        return getAllItems(SQLqueries.GET_USERS_FRIENDS, userId);
     }
 
     @Override
-    public User getUser(Long userId) {
-        isUserExist(userId);
-        return users.get(userId);
-    }
-
-    @Override
-    public User addUser(User newUser) {
-        validate(newUser);
-        newUser.setId(parseId());
-        users.put(newUser.getId(), newUser);
-        return newUser;
-    }
-
-    @Override
-    public User updateUser(User user) {
-
-        if (user.getId() == null) {
-            log.warn("Не указан Id");
-            throw new ValidationException("Id должен быть указан");
-        }
-        isUserExist(user.getId());
+    public User addUser(User user) {
         validate(user);
-        users.put(user.getId(), user);
+        Long id = insert(SQLqueries.ADD_USER,
+                user.getLogin(),
+                user.getName(),
+                user.getEmail(),
+                user.getBirthday());
+        user.setId(id);
         return user;
     }
 
     @Override
-    public User deleteUser(User user) {
-        isUserExist(user.getId());
-        return users.remove(user.getId());
+    public User updateUser(User user) {
+        isUserExist(user.getId()); //Проверка, что пользователь есть в БД
+        validate(user); //Проверка корректности полей
+        update(SQLqueries.UPDATE_USER,
+                user.getLogin(),
+                user.getName(),
+                user.getEmail(),
+                user.getBirthday(),
+                user.getId());
+        return user;
     }
 
-    private Long parseId() {
-        long currentMaxId = users.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
+    @Override
+    public Collection<User> findCommonFriends(Long userId, Long otherId) {
+        //Проверка наличия пользователей в базе
+        isUserExist(userId);
+        isUserExist(otherId);
+        return getAllItems(SQLqueries.GET_COMMON_FRIENDS, userId, otherId);
+    }
+
+    public void makeUsersFriends(Long userId, Long friendId) {
+        isUserExist(userId);
+        isUserExist(friendId);
+        insert(SQLqueries.MAKE_FRIENDS, userId, friendId);
+    }
+
+    public void deleteFromFriends(Long userId, Long friendId) {
+        isUserExist(userId);
+        isUserExist(friendId);
+        deleteItem(SQLqueries.DELETE_FRIEND, userId, friendId);
+
     }
 
     private void isUserExist(Long userId) {
-        if (!users.containsKey(userId)) {
+        if (getUser(userId).isEmpty()) {
             log.warn("Запрошен несуществующий пользователь");
             throw new NotFoundException("Пользователя не существует");
         }
@@ -106,5 +117,4 @@ public class InMemoryUserStorage implements UserStorage {
             throw new ValidationException("Вы еще не родились(");
         }
     }
-
 }

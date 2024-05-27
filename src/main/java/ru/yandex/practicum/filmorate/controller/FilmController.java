@@ -22,19 +22,16 @@ public class FilmController {
         return filmService.getFilmById(filmId);
     }
 
-   @GetMapping()
-   @ResponseStatus(HttpStatus.OK)
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
     public Collection<Film> getAllFilms() { //Получение всех фильмов
         return filmService.getAllFilms();
     }
 
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Film> getAllFilms(@RequestParam int count) { //Получение популярных фильмов
-        if (count != 0) {
-            return filmService.getSomePopularFilms(count);
-        }
-        return filmService.getAllFilms();
+    public Collection<Film> getAllFilms(@RequestParam(defaultValue = "10") Integer count) { //Получение популярных фильмов
+        return filmService.getSomePopularFilms(count);
     }
 
     @PostMapping
