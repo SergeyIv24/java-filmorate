@@ -114,4 +114,32 @@ public class SQLqueries {
     static final String GET_MPA_BY_ID = "SELECT *  " +
             "FROM RATINGS " +
             "WHERE RATING_ID = ?";
+
+    static final String ALL_REVIEWS = "SELECT * FROM reviews;";
+
+    static final String PUT_REVIEW = "INSERT INTO reviews (content, isPositive, user_id, film_id) " +
+            "VALUES (?, ?, ?, ?);";
+
+    static final String UPDATE_REVIEW = "UPDATE reviews " +
+            "SET content = ?, isPositive = ?, film_id = ? " +
+            "WHERE review_id = ?;";
+
+    static final String DELETE_REVIEW = "DELETE FROM reviews " +
+            "WHERE review_id = ?;";
+
+    static final String REVIEW_BY_ID = "SELECT * FROM reviews " +
+            "WHERE review_id = ?;";
+
+    static final String GET_ALL_REVIEWS = "SELECT * FROM reviews";
+
+    static final String GET_ALL_FILMS_REVIEWS = "SELECT * FROM reviews " +
+            "WHERE film_id = ? " +
+            "LIMIT ?;";
+
+    static final String ADD_LIKE_TO_REVIEW = ""; //todo
+
+    static final String ADD_DISLIKE_TO_REVIEW = ""; //todo
+
+    static final String REMOVE_REACTION = ""; //todo
+
 }
