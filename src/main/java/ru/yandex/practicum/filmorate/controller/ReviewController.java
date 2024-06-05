@@ -26,13 +26,13 @@ public class ReviewController {
         return reviewService.updateReview(review);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{reviewId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteReview(@PathVariable Long reviewId) {
         reviewService.deleteReview(reviewId);
     }
 
-    @GetMapping
+    @GetMapping("{reviewId}")
     @ResponseStatus(HttpStatus.OK)
     public Review getReviewById(@PathVariable Long reviewId) {
         return reviewService.getReviewById(reviewId);
