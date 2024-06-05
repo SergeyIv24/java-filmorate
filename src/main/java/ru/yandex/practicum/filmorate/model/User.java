@@ -1,17 +1,15 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
 
 @Data
-@JsonIgnoreProperties("friends")
+//@JsonIgnoreProperties("friends")
 public class User {
     Long id;
     @NotBlank
@@ -21,5 +19,5 @@ public class User {
     String email;
     LocalDate birthday;
     @EqualsAndHashCode.Exclude
-    Set<User> friends = new HashSet<>();
+    Collection<User> friends;
 }

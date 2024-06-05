@@ -15,6 +15,7 @@ public class SQLqueries {
             "INNER JOIN FRIENDS AS f ON f.FRIEND_USER_ID = u.USER_ID " +
             "GROUP BY u.USER_ID, f.USER_ID, u.LOGIN , u.NAME , u.EMAIL , u.BIRTH_DAY " +
             "HAVING f.USER_ID = ?; ";
+
     static final String GET_COMMON_FRIENDS = "SELECT * FROM USERS AS u WHERE u.USER_ID IN " +
             "(" +
                 "SELECT f1.FRIEND_USER_ID " +

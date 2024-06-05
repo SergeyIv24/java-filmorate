@@ -21,7 +21,12 @@ public class UserService {
     }
 
     public Collection<User> getAllUsers() {
-        return userStorage.getAllUsers();
+        Collection<User> users = userStorage.getAllUsers();
+        for (User user : users) {
+            Collection<User> userFriend = userStorage.getFriendsUserById(user.getId());
+            user.setFriends(userFriend);
+        }
+        return users;
     }
 
     public User createUser(User newUser) {
