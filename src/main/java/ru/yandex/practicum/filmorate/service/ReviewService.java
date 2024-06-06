@@ -38,10 +38,12 @@ public class ReviewService {
     }
 
     public void deleteReview(Long reviewId) {
+        isReviewExist(reviewId);
         reviewDbStorage.deleteReviewById(reviewId);
     }
 
     public Review getReviewById(Long reviewId) {
+        isReviewExist(reviewId);
         return reviewDbStorage.getReviewById(reviewId).get();
     }
 
@@ -66,6 +68,10 @@ public class ReviewService {
         }
     }
 
+    public void deleteLike(Long reviewId) {
+        isReviewExist(reviewId);
+        reviewDbStorage.addDislikeToReview(reviewId);
+    }
 
     private void isFilmExist(Long filmId) {
         if (filmStorage.getFilm(filmId).isEmpty()) {

@@ -60,4 +60,11 @@ public class ReviewController {
                                    @PathVariable(value = "userId") Long userId) {
         reviewService.addDislikeToReview(id);
     }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteLike(@PathVariable(value = "id") Long id,
+                               @PathVariable(value = "userId") Long userId) {
+        reviewService.deleteLike(id);
+    }
 }
