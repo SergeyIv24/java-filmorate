@@ -18,7 +18,7 @@ public class UserService {
 
     public User getUserById(Long userId) {
         Optional<User> userOptional = userStorage.getUser(userId);
-        if(userOptional.isEmpty()){
+        if (userOptional.isEmpty()) {
             log.warn("Пользователь с id " + userId + " не найден");
             throw new NotFoundException("Пользователь с данным id не существует");
         }
@@ -46,9 +46,9 @@ public class UserService {
         return userStorage.updateUser(user);
     }
 
-    public void deleteUser(Long userId){
+    public void deleteUser(Long userId) {
         boolean isDeleted = userStorage.deleteUser(userId);
-        if (!isDeleted){
+        if (!isDeleted) {
             log.warn("Пользователя с таким id не существует");
             throw new NotFoundException("Пользователь не существует");
         }
