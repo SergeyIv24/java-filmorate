@@ -114,4 +114,23 @@ public class SQLqueries {
     static final String GET_MPA_BY_ID = "SELECT *  " +
             "FROM RATINGS " +
             "WHERE RATING_ID = ?";
+
+    static final String GET_COMMON_FILMS = "SELECT f.films_id, " +
+            "f.NAME, " +
+            "f.DESCRIPTION, " +
+            "f.RELEASE_DATE, " +
+            "f.DURATION, " +
+            "f.RATING_ID, " +
+            "pop.popular," +
+            "r.NAME AS Mpa_name, " +
+            "FROM FILMS AS f " +
+            "LEFT JOIN RATINGS AS r ON f.RATING_ID  = r.RATING_ID " +
+            "LEFT JOIN ( " +
+            "SELECT films_id, COUNT (USER_ID) AS popular " +
+            "FROM WHO_LIKED AS WL " +
+            "GROUP BY FILMS_ID ) as pop ON pop.films_id = f.films_id " +
+            "JOIN who_liked w1 ON f.films_id = w1.films_id AND w1.user_id = ? " +
+            "JOIN who_liked w2 ON f.films_id = w2.films_id AND w2.user_id = ? " +
+            "ORDER BY pop.popular DESC ";
+
 }
