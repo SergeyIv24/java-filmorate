@@ -63,4 +63,10 @@ public class UserController {
     public void deleteFromFriends(@PathVariable(value = "id") Long userId, @PathVariable(value = "friendId") Long friendId) { //Удаление из друзей
         userService.deleteUserFromFriends(userId, friendId);
     }
+
+    @GetMapping("/{id}/feed")
+    @ResponseStatus(HttpStatus.OK)
+    public void getFeed(@PathVariable(value = "id") Long userId) {
+        //todo method returns JSON array which consists of user`s activity
+    }
 }
