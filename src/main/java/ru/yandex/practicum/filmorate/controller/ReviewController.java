@@ -39,10 +39,25 @@ public class ReviewController {
         return reviewService.getReviewById(reviewId);
     }
 
-    @GetMapping()
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public Collection<Review> getSomeReviews(@RequestParam Long filmId,
                                              @RequestParam(defaultValue = "10") Integer count) {
+        Collection<Review> test = reviewService.getSomeReviews(filmId, count); //todo удалить
         return reviewService.getSomeReviews(filmId, count);
+    }
+
+    @PutMapping("/{id}/like/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addLikeToReview(@PathVariable(value = "id") Long id,
+                                @PathVariable(value = "userId") Long userId) {
+        reviewService.addLikeToReview(id);
+    }
+
+    @PutMapping("/{id}/dislike/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addDislikeToReview(@PathVariable(value = "id") Long id,
+                                   @PathVariable(value = "userId") Long userId) {
+        reviewService.addDislikeToReview(id);
     }
 }

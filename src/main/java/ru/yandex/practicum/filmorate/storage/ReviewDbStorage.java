@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Review;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class ReviewDbStorage extends BaseStorage<Review> {
@@ -38,8 +39,8 @@ public class ReviewDbStorage extends BaseStorage<Review> {
         deleteItem(SQLqueries.DELETE_REVIEW, reviewId);
     }
 
-    public Review getReviewById(Long reviewId) {
-        return getOnePosition(SQLqueries.REVIEW_BY_ID, reviewId).get();
+    public Optional<Review> getReviewById(Long reviewId) {
+        return getOnePosition(SQLqueries.REVIEW_BY_ID, reviewId);
     }
 
     public Collection<Review> getAllReviews(Integer count) {
@@ -50,4 +51,11 @@ public class ReviewDbStorage extends BaseStorage<Review> {
         return getAllItems(SQLqueries.GET_ALL_FILMS_REVIEWS, filmId, count);
     }
 
+    public void addLikeToReview(Long reviewId) {
+        insertMany(SQLqueries.ADD_LIKE_TO_REVIEW, reviewId, reviewId);
+    }
+
+    public void addDislikeToReview(Long reviewId) {
+        insertMany(SQLqueries.ADD_DISLIKE_TO_REVIEW, reviewId, reviewId);
+    }
 }

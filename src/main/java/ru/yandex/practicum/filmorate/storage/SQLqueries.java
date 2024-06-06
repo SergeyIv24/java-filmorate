@@ -136,9 +136,15 @@ public class SQLqueries {
             "WHERE films_id = ? " +
             "LIMIT ?;";
 
-    static final String ADD_LIKE_TO_REVIEW = ""; //todo
+    static final String ADD_LIKE_TO_REVIEW = "UPDATE reviews " +
+            "SET useful = (SELECT useful FROM reviews " +
+            "WHERE review_id = ?) + 1 " +
+            "WHERE review_id = ?;";
 
-    static final String ADD_DISLIKE_TO_REVIEW = ""; //todo
+    static final String ADD_DISLIKE_TO_REVIEW = "UPDATE reviews " +
+            "SET useful = (SELECT useful FROM reviews " +
+            "WHERE review_id = ?) - 1 " +
+            "WHERE review_id = ?;";
 
     static final String REMOVE_REACTION = ""; //todo
 

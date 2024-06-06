@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.storage.ReviewDbStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class ReviewService {
     }
 
     public Review getReviewById(Long reviewId) {
-        return reviewDbStorage.getReviewById(reviewId);
+        return reviewDbStorage.getReviewById(reviewId).get();
     }
 
     public Collection<Review> getSomeReviews(Long filmId, Integer count) {
@@ -50,6 +51,21 @@ public class ReviewService {
         }
         return reviewDbStorage.getReviewByFilmId(filmId, count);
     }
+
+    public void addLikeToReview(Long reviewId) {
+        isReviewExist(reviewId);
+        reviewDbStorage.addLikeToReview(reviewId);
+    }
+
+    public void addDislikeToReview(Long reviewId) {
+        isReviewExist(reviewId);
+        reviewDbStorage.addDislikeToReview(reviewId);
+        Optional<Review> updatedReview = reviewDbStorage.getReviewById(reviewId);
+        if (updatedReview.isPresent() && updatedReview.get().getUseful() == 0) { //Если рейтинг 0, то уменьшение до -1
+            reviewDbStorage.addDislikeToReview(reviewId);
+        }
+    }
+
 
     private void isFilmExist(Long filmId) {
         if (filmStorage.getFilm(filmId).isEmpty()) {
@@ -65,6 +81,10 @@ public class ReviewService {
         }
     }
 
-
-
+    private void isReviewExist(Long reviewId) {
+        if (reviewDbStorage.getReviewById(reviewId).isEmpty()) {
+            log.warn("Отзыва не существует");
+            throw new NotFoundException("Отзыв с таким id не существует");
+        }
+    }
 }
