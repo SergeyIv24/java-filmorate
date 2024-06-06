@@ -14,6 +14,7 @@ import ru.yandex.practicum.filmorate.storage.GenreStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
@@ -72,6 +73,17 @@ public class FilmService {
             film.setGenres(genres);
         }
         return popularFilms;
+    }
+
+    public Collection<Film> getCommonFilms(Long userId, Long friendId) {
+        isUserExist(userId);
+        isUserExist(friendId);
+        ArrayList<Film> commonFilms = new ArrayList<>(filmStorage.getCommonFilm(userId, friendId));
+        for (Film film : commonFilms) {
+            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            film.setGenres(genres);
+        }
+        return commonFilms;
     }
 
     private void isFilmExist(Long filmId) {
