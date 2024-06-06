@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Review;
 
+import java.util.Collection;
+
 @Repository
 public class ReviewDbStorage extends BaseStorage<Review> {
 
@@ -38,6 +40,14 @@ public class ReviewDbStorage extends BaseStorage<Review> {
 
     public Review getReviewById(Long reviewId) {
         return getOnePosition(SQLqueries.REVIEW_BY_ID, reviewId).get();
+    }
+
+    public Collection<Review> getAllReviews(Integer count) {
+        return getAllItems(SQLqueries.GET_ALL_REVIEWS, count);
+    }
+
+    public Collection<Review> getReviewByFilmId(Long filmId, Integer count) {
+        return getAllItems(SQLqueries.GET_ALL_FILMS_REVIEWS, filmId, count);
     }
 
 }

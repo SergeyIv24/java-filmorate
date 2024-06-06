@@ -115,7 +115,7 @@ public class SQLqueries {
             "FROM RATINGS " +
             "WHERE RATING_ID = ?";
 
-    static final String ALL_REVIEWS = "SELECT * FROM reviews;";
+    static final String ALL_REVIEWS = "SELECT * FROM reviews";
 
     static final String ADD_REVIEW = "INSERT INTO reviews (content, isPositive, user_id, films_id) " +
             "VALUES (?, ?, ?, ?);";
@@ -130,10 +130,10 @@ public class SQLqueries {
     static final String REVIEW_BY_ID = "SELECT * FROM reviews " +
             "WHERE review_id = ?;";
 
-    static final String GET_ALL_REVIEWS = "SELECT * FROM reviews";
+    static final String GET_ALL_REVIEWS = "SELECT * FROM reviews LIMIT ?;";
 
     static final String GET_ALL_FILMS_REVIEWS = "SELECT * FROM reviews " +
-            "WHERE film_id = ? " +
+            "WHERE films_id = ? " +
             "LIMIT ?;";
 
     static final String ADD_LIKE_TO_REVIEW = ""; //todo

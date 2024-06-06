@@ -27,24 +27,22 @@ public class ReviewController {
         return reviewService.updateReview(review);
     }
 
-    @DeleteMapping("{reviewId}")
+    @DeleteMapping("/{reviewId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteReview(@PathVariable Long reviewId) {
+    public void deleteReview(@PathVariable(value = "reviewId") Long reviewId) {
         reviewService.deleteReview(reviewId);
     }
 
-    @GetMapping("{reviewId}")
+    @GetMapping("/{reviewId}")
     @ResponseStatus(HttpStatus.OK)
-    public Review getReviewById(@PathVariable Long reviewId) {
+    public Review getReviewById(@PathVariable(value = "reviewId") Long reviewId) {
         return reviewService.getReviewById(reviewId);
     }
 
-    @GetMapping
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Review> getSomeReviews() {
-        return null;
+    public Collection<Review> getSomeReviews(@RequestParam Long filmId,
+                                             @RequestParam(defaultValue = "10") Integer count) {
+        return reviewService.getSomeReviews(filmId, count);
     }
-
-
-
 }

@@ -10,6 +10,8 @@ import ru.yandex.practicum.filmorate.storage.FilmDbStorage;
 import ru.yandex.practicum.filmorate.storage.ReviewDbStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
+import java.util.Collection;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -42,6 +44,13 @@ public class ReviewService {
         return reviewDbStorage.getReviewById(reviewId);
     }
 
+    public Collection<Review> getSomeReviews(Long filmId, Integer count) {
+        if (filmId == null) {
+            return reviewDbStorage.getAllReviews(count);
+        }
+        return reviewDbStorage.getReviewByFilmId(filmId, count);
+    }
+
     private void isFilmExist(Long filmId) {
         if (filmStorage.getFilm(filmId).isEmpty()) {
             log.warn("Фильма не существует");
@@ -55,10 +64,6 @@ public class ReviewService {
             throw new NotFoundException("Пользователь с таким id не существует");
         }
     }
-
-
-
-
 
 
 
