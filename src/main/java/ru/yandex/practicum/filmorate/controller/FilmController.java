@@ -57,4 +57,10 @@ public class FilmController {
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) { //Удаление лайка с фильма
         filmService.deleteLike(id, userId);
     }
+
+    @GetMapping("/common")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Film> getCommonFilms(@RequestParam("userId") Long userId, @RequestParam("friendId") Long friendId){
+        return filmService.getCommonFilms(userId, friendId);
+    }
 }
