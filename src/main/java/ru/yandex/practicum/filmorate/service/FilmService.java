@@ -52,6 +52,15 @@ public class FilmService {
         return filmStorage.updateFilm(film);
     }
 
+    public void deleteFilm(Long filmId) {
+        boolean isDeleted = filmStorage.deleteFilm(filmId);
+        if (!isDeleted) {
+            log.warn("Фильма не существует");
+            throw new NotFoundException("Фильма с таким id не существует");
+        }
+        log.debug("Фильм " + filmId + " удален.");
+    }
+
     public void addLikeToFilm(Long userId, Long filmId) {
         isFilmExist(filmId);
         isUserExist(userId);

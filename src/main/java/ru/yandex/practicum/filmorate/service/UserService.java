@@ -37,6 +37,15 @@ public class UserService {
         return userStorage.updateUser(user);
     }
 
+    public void deleteUser(Long userId){
+        boolean isDeleted = userStorage.deleteUser(userId);
+        if (!isDeleted){
+            log.warn("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователь не существует");
+        }
+        log.debug("Пользователь " + userId + " удален");
+    }
+
     //Метод добавления пользователя в друзья
     public void addUserInFriends(Long userId, Long friendId) {
         userStorage.makeUsersFriends(userId, friendId);
