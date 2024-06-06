@@ -72,4 +72,9 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
     public Collection<Film> findSomePopular(Integer amount) {
         return getAllItems(SQLqueries.GET_POPULAR, amount);
     }
+
+    public Collection<Film> getCommonFilm(Long userId, Long friendId) {
+        return getAllItems(SQLqueries.GET_COMMON_FILMS, userId, friendId);
+    }
+
 }
