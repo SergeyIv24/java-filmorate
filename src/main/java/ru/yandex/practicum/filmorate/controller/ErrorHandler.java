@@ -1,3 +1,4 @@
+/*
 package ru.yandex.practicum.filmorate.controller;
 
 import org.springframework.http.HttpStatus;
@@ -28,3 +29,4 @@ public class ErrorHandler {
         return new ErrorResponse("Внутренняя ошибка сервера");
     }
 }
+*/

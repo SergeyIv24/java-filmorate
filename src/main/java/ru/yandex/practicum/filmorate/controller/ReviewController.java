@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.model.Review;
 import ru.yandex.practicum.filmorate.service.ReviewService;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,6 +37,12 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     public Review getReviewById(@PathVariable Long reviewId) {
         return reviewService.getReviewById(reviewId);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Review> getSomeReviews() {
+        return null;
     }
 
 

@@ -117,11 +117,11 @@ public class SQLqueries {
 
     static final String ALL_REVIEWS = "SELECT * FROM reviews;";
 
-    static final String PUT_REVIEW = "INSERT INTO reviews (content, isPositive, user_id, film_id) " +
+    static final String ADD_REVIEW = "INSERT INTO reviews (content, isPositive, user_id, films_id) " +
             "VALUES (?, ?, ?, ?);";
 
     static final String UPDATE_REVIEW = "UPDATE reviews " +
-            "SET content = ?, isPositive = ?, film_id = ? " +
+            "SET content = ?, isPositive = ?, films_id = ?, useful = ? " +
             "WHERE review_id = ?;";
 
     static final String DELETE_REVIEW = "DELETE FROM reviews " +

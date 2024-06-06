@@ -13,12 +13,11 @@ public class ReviewDbStorage extends BaseStorage<Review> {
     }
 
     public Review addReview(Review review) {
-        Long id = insert(SQLqueries.PUT_REVIEW,
+        Long id = insert(SQLqueries.ADD_REVIEW,
                 review.getContent(),
-                review.isPositive(),
+                review.getIsPositive(),
                 review.getUserId(),
-                review.getFilmsId(),
-                review.getUseful());
+                review.getFilmId());
         review.setReviewId(id);
         return review;
     }
@@ -26,8 +25,9 @@ public class ReviewDbStorage extends BaseStorage<Review> {
     public Review updateReview(Review review) {
         update(SQLqueries.UPDATE_REVIEW,
                 review.getContent(),
-                review.isPositive(),
-                review.getFilmsId(),
+                review.getIsPositive(),
+                review.getFilmId(),
+                review.getUseful(),
                 review.getReviewId());
         return review;
     }
