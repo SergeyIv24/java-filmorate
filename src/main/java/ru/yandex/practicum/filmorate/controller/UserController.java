@@ -8,7 +8,7 @@ import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Collection;
-
+//todo update every method everywhere to save user`s actions in feed
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")

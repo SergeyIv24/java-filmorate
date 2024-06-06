@@ -114,4 +114,18 @@ public class SQLqueries {
     static final String GET_MPA_BY_ID = "SELECT *  " +
             "FROM RATINGS " +
             "WHERE RATING_ID = ?";
+
+    static final String INSERT_USERS_ACTION_IN_FEED = "INSERT INTO FEED (TIMESTAMP, USER_ID," +
+            "EVENT_TYPE, OPERATION, ENTITYID) " +
+            "VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?);";
+
+    static final String GET_FEED = "SELECT EVENT_ID, " +
+            "TIMESTAMP, " +
+            "USER_ID, " +
+            "TYPE, " +
+            "o.OPERATION, " +
+            "ENTITYID " +
+            "FROM FEED AS f " +
+            "INNER JOIN EVENT_TYPES AS e ON f.EVENT_TYPE = e.TYPE_ID " +
+            "INNER JOIN OPERATIONS AS o ON f.OPERATION  = o.OPERATION_ID;";
 }
