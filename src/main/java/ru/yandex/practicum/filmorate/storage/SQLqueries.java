@@ -6,6 +6,7 @@ public class SQLqueries {
     static final String ADD_USER = "INSERT INTO users(login, name, email, birth_day)" +
             "VALUES(?, ?, ?, ?);";
     static final String UPDATE_USER = "UPDATE users SET login = ?, name = ?, email = ?, birth_day = ? WHERE USER_ID = ?";
+    static final String DELETE_USER = "DELETE FROM users WHERE user_id = ?";
     static final String GET_USERS_FRIENDS = "SELECT u.USER_ID, " +
             "u.LOGIN, " +
             "u.NAME, " +
@@ -44,6 +45,8 @@ public class SQLqueries {
     static final String UPDATE_FILM = "UPDATE films SET NAME = ?, DESCRIPTION = ?, RELEASE_DATE = ?, DURATION = ?, " +
             "RATING_ID = ? " +
             "WHERE FILMS_ID = ?";
+
+    static final String DELETE_FILM = "DELETE FROM films WHERE films_id = ?";
 
     static final String GET_FILM_BY_ID = "SELECT f.FILMS_ID, " +
             "f.NAME, " +
