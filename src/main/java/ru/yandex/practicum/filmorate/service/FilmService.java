@@ -15,6 +15,7 @@ import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,11 @@ public class FilmService {
 
     public Film getFilmById(Long filmId) {
         Collection<Genre> genres = genreStorage.findAllFilmGenre(filmId);
-        Film film = filmStorage.getFilm(filmId).get();
+        Optional<Film> optionalFilm = filmStorage.getFilm(filmId);
+        if (optionalFilm.isEmpty()) {
+            throw new NotFoundException("Позьзователь с данным id не существует");
+        }
+        Film film = optionalFilm.get();
         film.setGenres(genres);
         return film;
     }
@@ -50,6 +55,15 @@ public class FilmService {
         isFilmExist(film.getId());
         validate(film);
         return filmStorage.updateFilm(film);
+    }
+
+    public void deleteFilm(Long filmId) {
+        boolean isDeleted = filmStorage.deleteFilm(filmId);
+        if (!isDeleted) {
+            log.warn("Фильма не существует");
+            throw new NotFoundException("Фильма с таким id не существует");
+        }
+        log.debug("Фильм " + filmId + " удален.");
     }
 
     public void addLikeToFilm(Long userId, Long filmId) {

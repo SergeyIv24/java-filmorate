@@ -52,6 +52,10 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
         return film;
     }
 
+    public boolean deleteFilm(Long filmId) {
+        return deleteItem(SQLqueries.DELETE_FILM, filmId);
+    }
+
     private void setGenres(Film newFilm, Long id) {
         if (newFilm.getGenres() != null) {
             Set<Genre> uniqueGenres = Set.copyOf(newFilm.getGenres());
