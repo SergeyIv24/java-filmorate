@@ -24,7 +24,6 @@ class FilmoRateApplicationTests {
     private final UserDbStorage userStorage;
     private final FilmDbStorage filmStorage;
 
-
     public void testCreateUser() {
         User addingUser = new User();
         addingUser.setLogin("TestLogin");
@@ -69,5 +68,4 @@ class FilmoRateApplicationTests {
                         assertThat(film).hasFieldOrPropertyWithValue("id", 1L)
                 );
     }
-
 }

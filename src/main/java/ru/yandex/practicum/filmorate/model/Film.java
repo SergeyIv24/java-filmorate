@@ -33,6 +33,7 @@ public class Film {
     Mpa mpa;
     @EqualsAndHashCode.Exclude
     Collection<Genre> genres;
+    Collection<Director> directors;
 
     @EqualsAndHashCode.Exclude
     @JsonIgnore
@@ -48,6 +49,4 @@ public class Film {
     public void durationInMinutes(long duration) {
         this.duration = Duration.ofMinutes(duration);
     }
-
-
 }
