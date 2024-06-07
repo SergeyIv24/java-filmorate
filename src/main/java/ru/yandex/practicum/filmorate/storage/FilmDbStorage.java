@@ -6,9 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
@@ -73,7 +71,36 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
         deleteItem(SQLqueries.DELETE_LIKE, filmId, userId);
     }
 
-    public Collection<Film> findSomePopular(Integer amount) {
-        return getAllItems(SQLqueries.GET_POPULAR, amount);
+    public Collection<Film> findSomePopular(Integer amount, Integer genreId, Integer year) {
+        StringBuilder sql = new StringBuilder(SQLqueries.GET_POPULAR);
+        if (genreId != null && year != null) {
+            sql.append(" INNER JOIN films_geners fg ON fg.films_id = f.films_id ")
+                    .append(" WHERE fg.gener_id = ? AND EXTRACT(YEAR FROM f.release_date) = ? ")
+                    .append(" GROUP BY f.films_id, f.name, f.description, f.release_date, f.duration, f.rating_id, rat.name ")
+                    .append(" ORDER BY pop.popular DESC ");
+        } else if (genreId != null) {
+            sql.append(" INNER JOIN films_geners fg ON fg.films_id = f.films_id ")
+                    .append(" WHERE fg.gener_id = ? ")
+                    .append(" GROUP BY f.films_id, f.name, f.description, f.release_date, f.duration, f.rating_id, rat.name ")
+                    .append(" ORDER BY pop.popular DESC ");
+        } else if (year != null) {
+            sql.append(" WHERE EXTRACT(YEAR FROM f.release_date) = ? ")
+                    .append(" GROUP BY f.films_id, f.name, f.description, f.release_date, f.duration, f.rating_id, rat.name ")
+                    .append(" ORDER BY pop.popular DESC ");
+        } else {
+            sql.append(" GROUP BY f.films_id, f.name, f.description, f.release_date, f.duration, f.rating_id, rat.name ")
+                    .append(" ORDER BY pop.popular DESC ");
+        }
+
+        List<Object> params = new ArrayList<>();
+        params.add(amount);
+        if (genreId != null) {
+            params.add(genreId);
+        }
+        if (year != null) {
+            params.add(year);
+        }
+
+        return getAllItems(sql.toString(), params.toArray());
     }
 }

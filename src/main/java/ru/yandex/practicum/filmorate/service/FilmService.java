@@ -79,8 +79,8 @@ public class FilmService {
         filmStorage.deleteLike(filmId, userId);
     }
 
-    public Collection<Film> getSomePopularFilms(int amountOfFilms) {
-        Collection<Film> popularFilms = filmStorage.findSomePopular(amountOfFilms);
+    public Collection<Film> getSomePopularFilms(Integer amountOfFilms, Integer genreId, Integer year) {
+        Collection<Film> popularFilms = filmStorage.findSomePopular(amountOfFilms, genreId, year);
         for (Film film : popularFilms) {
             Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
             film.setGenres(genres);
@@ -129,6 +129,5 @@ public class FilmService {
                 }
             }
         }
-
     }
 }

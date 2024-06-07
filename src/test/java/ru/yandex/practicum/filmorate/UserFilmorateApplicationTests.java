@@ -102,6 +102,4 @@ class UserFilmorateApplicationTests {
         HttpResponse<String> response = client.send(requestPost, handlerPost);
         assertEquals(400, response.statusCode());
     }
-
-
 }
