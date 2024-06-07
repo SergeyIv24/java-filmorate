@@ -25,7 +25,7 @@ public class Film {
     @NotBlank(message = "Описание менее 200 символов")
     @Size(min = 1, max = 200)
     String description;
-    @PastOrPresent(message = "Дата выхода не может быть в будущем")
+
     LocalDate releaseDate;
     @DurationMin
     Duration duration;
