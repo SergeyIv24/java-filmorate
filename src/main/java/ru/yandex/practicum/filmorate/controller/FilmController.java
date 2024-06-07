@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.Collection;
 public class FilmController {
 
     private final FilmService filmService;
+    private final UserService userService;
 
     @GetMapping("/{filmId}")
     @ResponseStatus(HttpStatus.OK)
@@ -50,11 +52,13 @@ public class FilmController {
     @ResponseStatus(HttpStatus.OK)
     public void addLikeToFilm(@PathVariable(value = "id") Long id, @PathVariable(value = "userId") Long userId) { //Добавление лайка к фильму
         filmService.addLikeToFilm(userId, id);
+        userService.addUserActivity(userId, id, Constance.EVENT_TYPE_LIKE, Constance.OPERATION_ADD);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) { //Удаление лайка с фильма
         filmService.deleteLike(id, userId);
+        userService.addUserActivity(userId, id, Constance.EVENT_TYPE_LIKE, Constance.OPERATION_REMOVE);
     }
 }

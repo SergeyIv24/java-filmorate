@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 @Repository
 public class UserDbStorage extends BaseStorage<User> implements UserStorage {
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+    private static final Logger log = LoggerFactory.getLogger(UserDbStorage.class);
 
     public UserDbStorage(JdbcTemplate jdbcTemplate, RowMapper<User> mapper) {
         super(jdbcTemplate, mapper);
@@ -81,10 +80,9 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
         isUserExist(userId);
         isUserExist(friendId);
         deleteItem(SQLqueries.DELETE_FRIEND, userId, friendId);
-
     }
 
-    private void isUserExist(Long userId) {
+    protected void isUserExist(Long userId) {
         if (getUser(userId).isEmpty()) {
             log.warn("Запрошен несуществующий пользователь");
             throw new NotFoundException("Пользователя не существует");

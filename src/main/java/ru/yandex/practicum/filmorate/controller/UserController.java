@@ -3,12 +3,13 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 import java.util.Collection;
-//todo update every method everywhere to save user`s actions in feed
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -49,24 +50,25 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@Valid @RequestBody User user) { //Обновление пользователя
         return userService.updateUser(user);
-
     }
 
     @PutMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK) //Добавление в друзья
     public void makeUsersFriends(@PathVariable(value = "id") Long id, @PathVariable(value = "friendId") Long friendId) {
         userService.addUserInFriends(id, friendId);
+        userService.addUserActivity(id, friendId, Constance.FRIEND, Constance.OPERATION_ADD);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteFromFriends(@PathVariable(value = "id") Long userId, @PathVariable(value = "friendId") Long friendId) { //Удаление из друзей
         userService.deleteUserFromFriends(userId, friendId);
+        userService.addUserActivity(userId, friendId, Constance.FRIEND, Constance.OPERATION_REMOVE);
     }
 
     @GetMapping("/{id}/feed")
     @ResponseStatus(HttpStatus.OK)
-    public void getFeed(@PathVariable(value = "id") Long userId) {
-        //todo method returns JSON array which consists of user`s activity
+    public Collection<Feed> getUserFeed(@PathVariable(value = "id") Long userId) {
+        return userService.getUserFeed(userId);
     }
 }

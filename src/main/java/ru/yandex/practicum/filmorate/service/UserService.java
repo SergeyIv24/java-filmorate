@@ -2,7 +2,9 @@ package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.FeedDbStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.util.Collection;
@@ -11,6 +13,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class UserService {
     private final UserDbStorage userStorage;
+    private final FeedDbStorage feedStorage;
 
     public User getUserById(Long userId) {
         return userStorage.getUser(userId).get();
@@ -50,5 +53,13 @@ public class UserService {
     //Метод поиска общих друзей
     public Collection<User> getCommonFriends(Long userId, Long otherId) {
         return userStorage.findCommonFriends(userId, otherId);
+    }
+
+    public Collection<Feed> getUserFeed(Long userId) {
+        return feedStorage.getUsersFeed(userId);
+    }
+
+    public void addUserActivity(Long userId, Long entity_id, Integer event, Integer operation) {
+        feedStorage.addUserActivity(userId, entity_id, event, operation);
     }
 }

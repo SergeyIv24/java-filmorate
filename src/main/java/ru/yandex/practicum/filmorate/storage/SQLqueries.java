@@ -116,16 +116,17 @@ public class SQLqueries {
             "WHERE RATING_ID = ?";
 
     static final String INSERT_USERS_ACTION_IN_FEED = "INSERT INTO FEED (TIMESTAMP, USER_ID," +
-            "EVENT_TYPE, OPERATION, ENTITYID) " +
+            "EVENT_TYPE, OPERATION, entity_id) " +
             "VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?);";
 
-    static final String GET_FEED = "SELECT EVENT_ID, " +
+    static final String GET_USERS_FEED = "SELECT EVENT_ID, " +
             "TIMESTAMP, " +
             "USER_ID, " +
-            "TYPE, " +
+            "e.EVENT_TYPE, " +
             "o.OPERATION, " +
-            "ENTITYID " +
+            "entity_id " +
             "FROM FEED AS f " +
             "INNER JOIN EVENT_TYPES AS e ON f.EVENT_TYPE = e.TYPE_ID " +
-            "INNER JOIN OPERATIONS AS o ON f.OPERATION  = o.OPERATION_ID;";
+            "INNER JOIN OPERATIONS AS o ON f.OPERATION  = o.OPERATION_ID " +
+            "WHERE f.USER_ID = ?; ";
 }
