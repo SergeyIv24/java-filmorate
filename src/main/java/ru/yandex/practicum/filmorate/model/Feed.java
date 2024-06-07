@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -21,14 +23,14 @@ public class Feed {
     @NotNull(message = "Entity_id не может быть пустым")
     Long entity_id;
 
-/*    @JsonGetter("timestamp")
+    @JsonGetter("timestamp")
     public Long timestampToSecondsAmount() {
         return timestamp.toEpochMilli();
     }
 
     @JsonSetter("timestamp")
-    public void timeStampToInstant(long time) {
-        this.timestamp = Instant.ofEpochSecond(time);
-    }*/
+    public void timestampToInstant(long time) {
+        this.timestamp = Instant.ofEpochMilli(time);
+    }
 
 }
