@@ -81,17 +81,17 @@ public class SQLqueries {
             "f.RATING_ID, " +
             "rat.NAME AS Mpa_name " +
             "FROM FILMS AS f " +
-            "INNER JOIN ( " +
-                "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
-                "FROM WHO_LIKED AS WL " +
-                "GROUP BY FILMS_ID " +
-                "ORDER BY popular DESC " +
-                "LIMIT ? " +
+            "LEFT JOIN ( " +
+               "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
+               "FROM WHO_LIKED AS WL " +
+               "GROUP BY FILMS_ID " +
+               "ORDER BY popular DESC " +
+               "LIMIT ? " +
             ") AS pop ON pop.FILMS_ID = f.FILMS_ID " +
-            "INNER JOIN ( " +
-                "SELECT * " +
-                "FROM RATINGS AS r " +
-            ") AS rat ON rat.RATING_ID = f.RATING_ID  ";
+               "INNER JOIN ( " +
+               "SELECT * " +
+               "FROM RATINGS AS r " +
+            ") AS rat ON rat.RATING_ID = f.RATING_ID ";
 
     static final String ADD_GENRE = "INSERT INTO FILMS_GENERS (GENER_ID, FILMS_ID) " +
             "VALUES (?, ?)";
