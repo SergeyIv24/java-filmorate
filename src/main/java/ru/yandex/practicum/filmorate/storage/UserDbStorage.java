@@ -62,6 +62,10 @@ public class UserDbStorage extends BaseStorage<User> implements UserStorage {
         return user;
     }
 
+    public boolean deleteUser(Long userId) {
+        return deleteItem(SQLqueries.DELETE_USER, userId);
+    }
+
     @Override
     public Collection<User> findCommonFriends(Long userId, Long otherId) {
         //Проверка наличия пользователей в базе

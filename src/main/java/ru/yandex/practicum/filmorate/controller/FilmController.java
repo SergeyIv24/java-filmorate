@@ -32,8 +32,10 @@ public class FilmController {
 
     @GetMapping("/popular")
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Film> getAllFilms(@RequestParam(defaultValue = "10") Integer count) { //Получение популярных фильмов
-        return filmService.getSomePopularFilms(count);
+    public Collection<Film> getAllPopularFilms(@RequestParam(required = false, defaultValue = "10") Integer count,
+                                        @RequestParam(required = false) Integer genreId,
+                                        @RequestParam(required = false) Integer year) { //Получение популярных фильмов
+        return filmService.getSomePopularFilms(count, genreId, year);
     }
 
     @PostMapping
@@ -48,6 +50,12 @@ public class FilmController {
         return filmService.updateFilm(film);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFilm(@PathVariable(value = "id") Long id) {
+        filmService.deleteFilm(id);
+    }
+
     @PutMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void addLikeToFilm(@PathVariable(value = "id") Long id, @PathVariable(value = "userId") Long userId) { //Добавление лайка к фильму
@@ -60,5 +68,12 @@ public class FilmController {
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) { //Удаление лайка с фильма
         filmService.deleteLike(id, userId);
         userService.addUserActivity(userId, id, Constance.EVENT_TYPE_LIKE, Constance.OPERATION_REMOVE);
+    }
+
+    @GetMapping("director/{directorId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Film> getDirectorsFilmsSortBy(@PathVariable Long directorId,
+                                                    @RequestParam(required = false, defaultValue = "year") String sortBy) {
+        return filmService.getDirectorsFilmsSortBy(directorId, sortBy);
     }
 }

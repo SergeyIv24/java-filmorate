@@ -25,7 +25,7 @@ public class Film {
     @NotBlank(message = "Описание менее 200 символов")
     @Size(min = 1, max = 200)
     String description;
-    @PastOrPresent(message = "Дата выхода не может быть в будущем")
+
     LocalDate releaseDate;
     @DurationMin
     Duration duration;
@@ -33,6 +33,7 @@ public class Film {
     Mpa mpa;
     @EqualsAndHashCode.Exclude
     Collection<Genre> genres;
+    Collection<Director> directors;
 
     @EqualsAndHashCode.Exclude
     @JsonIgnore
@@ -48,6 +49,4 @@ public class Film {
     public void durationInMinutes(long duration) {
         this.duration = Duration.ofMinutes(duration);
     }
-
-
 }

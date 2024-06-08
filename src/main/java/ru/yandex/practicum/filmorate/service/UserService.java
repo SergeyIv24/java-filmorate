@@ -1,22 +1,31 @@
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Feed;
+import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FeedDbStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
     private final UserDbStorage userStorage;
     private final FeedDbStorage feedStorage;
 
     public User getUserById(Long userId) {
-        return userStorage.getUser(userId).get();
+        Optional<User> userOptional = userStorage.getUser(userId);
+        if (userOptional.isEmpty()) {
+            log.warn("Пользователь с id " + userId + " не найден");
+            throw new NotFoundException("Пользователь с данным id не существует");
+        }
+        return userOptional.get();
     }
 
     public Collection<User> getAllUsersById(Long id) {
@@ -38,6 +47,15 @@ public class UserService {
 
     public User updateUser(User user) {
         return userStorage.updateUser(user);
+    }
+
+    public void deleteUser(Long userId) {
+        boolean isDeleted = userStorage.deleteUser(userId);
+        if (!isDeleted) {
+            log.warn("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователь не существует");
+        }
+        log.debug("Пользователь " + userId + " удален");
     }
 
     //Метод добавления пользователя в друзья
