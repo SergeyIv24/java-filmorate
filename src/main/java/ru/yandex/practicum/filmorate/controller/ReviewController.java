@@ -20,17 +20,19 @@ public class ReviewController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Review addReview(@Valid @RequestBody Review review) {
-        userService.addUserActivity(review.getUserId(), review.getReviewId(),
+        Review reviewResponded = reviewService.addReview(review);
+        userService.addUserActivity(reviewResponded.getUserId(), reviewResponded.getReviewId(),
                 Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_ADD);
-        return reviewService.addReview(review);
+        return reviewResponded;
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public Review updateReview(@Valid @RequestBody Review review) {
-        userService.addUserActivity(review.getUserId(), review.getReviewId(),
+        Review updatedReview = reviewService.updateReview(review);
+        userService.addUserActivity(updatedReview.getUserId(), updatedReview.getReviewId(),
                 Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_UPDATE);
-        return reviewService.updateReview(review);
+        return updatedReview;
     }
 
     @DeleteMapping("/{reviewId}")
@@ -38,7 +40,7 @@ public class ReviewController {
     public void deleteReview(@PathVariable(value = "reviewId") Long reviewId) {
         Review review = reviewService.getReviewById(reviewId);
         userService.addUserActivity(review.getUserId(), review.getReviewId(),
-                Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_UPDATE);
+                Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_REMOVE);
         reviewService.deleteReview(reviewId);
     }
 

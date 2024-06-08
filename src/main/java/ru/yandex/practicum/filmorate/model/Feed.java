@@ -17,11 +17,11 @@ public class Feed {
     @NotNull(message = "User_id не может быть пустым")
     Long userId;
     @NotNull(message = "Event_type не может быть пустым")
-    EventTypes event_type;
+    String eventType;
     @NotNull(message = "Operation не может быть пустым")
-    Operations operation;
+    String operation;
     @NotNull(message = "Entity_id не может быть пустым")
-    Long entity_id;
+    Long entityId;
 
     @JsonGetter("timestamp")
     public Long timestampToSecondsAmount() {
