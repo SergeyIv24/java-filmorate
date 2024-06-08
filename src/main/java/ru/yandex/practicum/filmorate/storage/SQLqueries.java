@@ -189,7 +189,7 @@ public class SQLqueries {
     static final String DELETE_OLD_DIRECTORS = "DELETE FROM FILMS_DIRECTORS WHERE FILM_ID = ?";
 
     static final String DELETE_OLD_GENERS = "DELETE FROM FILMS_GENERS WHERE FILM_ID = ?";
-}
+
     static final String REMOVE_REACTION = ""; //todo
 
 }
