@@ -10,7 +10,7 @@ import java.time.Instant;
 
 @Data
 public class Feed {
-    Long event_id;
+    Long eventId;
     @NotNull(message = "Временна метка должна быть указана")
     @PastOrPresent
     Instant timestamp;
