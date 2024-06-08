@@ -38,11 +38,10 @@ public class SQLqueries {
             "WHERE USER_ID = ? " +
             "AND FRIEND_USER_ID = ?;";
 
-
     static final String ADD_FILM = "INSERT INTO FILMS (NAME, DESCRIPTION, RELEASE_DATE, DURATION, RATING_ID) " +
             "VALUES(?, ?, ?, ?, ?)";
 
-    static final String UPDATE_FILM = "UPDATE films SET NAME = ?, DESCRIPTION = ?, RELEASE_DATE = ?, DURATION = ?, " +
+    static final String UPDATE_FILM = "UPDATE FILMS SET NAME = ?, DESCRIPTION = ?, RELEASE_DATE = ?, DURATION = ?, " +
             "RATING_ID = ? " +
             "WHERE FILMS_ID = ?";
 
@@ -67,7 +66,8 @@ public class SQLqueries {
             "f.RATING_ID, " +
             "r.NAME AS Mpa_name " +
             "FROM films AS f " +
-            "INNER JOIN RATINGS r ON r.RATING_ID = f.RATING_ID  ";
+            "INNER JOIN RATINGS r ON r.RATING_ID = f.RATING_ID " +
+            "ORDER BY FILMS_ID";
 
     static final String ADD_LIKE_TO_FILM = "INSERT INTO WHO_LIKED (FILMS_ID, USER_ID) " +
             "VALUES (?, ?)";
@@ -118,6 +118,43 @@ public class SQLqueries {
             "FROM RATINGS " +
             "WHERE RATING_ID = ?";
 
+    static final String ADD_DIRECTOR = "INSERT INTO DIRECTORS (NAME) " +
+            "VALUES (?)";
+
+    static final String UPDATE_DIRECTOR = "UPDATE DIRECTORS SET NAME = ? " +
+            "WHERE DIRECTOR_ID = ?";
+
+    static final String GET_ALL_DIRECTORS = "SELECT * FROM DIRECTORS";
+
+    static final String GET_DIRECTOR_BY_ID = "SELECT * " +
+            "FROM DIRECTORS " +
+            "WHERE DIRECTOR_ID = ?";
+
+    static final String DELETE_DIRECTOR = "DELETE FROM DIRECTORS " +
+            "WHERE DIRECTOR_ID = ?";
+
+    static final String ADD_DIRECTORS_TO_FILM = "INSERT INTO FILMS_DIRECTORS (DIRECTOR_ID, FILM_ID) " +
+            "VALUES (?, ?)";
+
+    static final String FIND_ALL_DIRECTORS_OF_FILM = "SELECT d.director_id, d.name " +
+            "FROM FILMS_DIRECTORS fd " +
+            "LEFT JOIN DIRECTORS d ON fd.DIRECTOR_ID = d.DIRECTOR_ID " +
+            "WHERE fd.FILM_ID = ?";
+
+    static final String GET_DIRECTOR_FILMS_SORT_BY_YEAR = "SELECT * " +
+            "FROM FILMS_DIRECTORS fd " +
+            "JOIN FILMS f ON fd.FILM_ID = f.FILMS_ID " +
+            "WHERE fd.DIRECTOR_ID = ? " +
+            "ORDER BY f.RELEASE_DATE";
+
+    static final String GET_DIRECTOR_FILMS_SORT_BY_LIKES = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count " +
+                    "FROM FILMS_DIRECTORS fd " +
+                    "JOIN FILMS f ON fd.FILM_ID = f.FILMS_ID " +
+                    "LEFT JOIN WHO_LIKED wl ON fd.FILM_ID = wl.FILMS_ID " +
+                    "WHERE fd.DIRECTOR_ID = ? " +
+                    "GROUP BY fd.FILM_ID " +
+                    "ORDER BY LIKES_COUNT DESC";
+
     static final String ALL_REVIEWS = "SELECT * FROM reviews";
 
     static final String ADD_REVIEW = "INSERT INTO reviews (content, isPositive, user_id, films_id) " +
@@ -149,6 +186,10 @@ public class SQLqueries {
             "WHERE review_id = ?) - 1 " +
             "WHERE review_id = ?;";
 
+    static final String DELETE_OLD_DIRECTORS = "DELETE FROM FILMS_DIRECTORS WHERE FILM_ID = ?";
+
+    static final String DELETE_OLD_GENERS = "DELETE FROM FILMS_GENERS WHERE FILM_ID = ?";
+}
     static final String REMOVE_REACTION = ""; //todo
 
 }

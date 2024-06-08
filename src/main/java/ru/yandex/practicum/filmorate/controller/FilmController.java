@@ -65,4 +65,11 @@ public class FilmController {
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) { //Удаление лайка с фильма
         filmService.deleteLike(id, userId);
     }
+
+    @GetMapping("director/{directorId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Film> getDirectorsFilmsSortBy(@PathVariable Long directorId,
+                                                    @RequestParam(required = false, defaultValue = "year") String sortBy) {
+        return filmService.getDirectorsFilmsSortBy(directorId, sortBy);
+    }
 }

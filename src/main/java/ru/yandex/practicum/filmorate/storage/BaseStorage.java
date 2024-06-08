@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.Optional;
 
-
 public class BaseStorage<T> extends Storage<T> {
     protected JdbcTemplate jdbcTemplate;
     protected RowMapper<T> mapper;

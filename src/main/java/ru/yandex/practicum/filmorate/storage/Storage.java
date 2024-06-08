@@ -17,5 +17,4 @@ abstract class Storage<T> {
     abstract void insertMany(String query, Long id, Long anotherId);
 
     abstract void update(String query, Object... parameters);
-
 }
