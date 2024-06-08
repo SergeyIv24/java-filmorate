@@ -18,8 +18,8 @@ public class FeedDbStorage extends BaseStorage<Feed> {
         super(template, mapper);
     }
 
-    public void addUserActivity(Long userId, Long entity_id, Integer event, Integer operation) {
-        insert(SQLqueries.INSERT_USERS_ACTION_IN_FEED, userId, event, operation, entity_id);
+    public void addUserActivity(Long userId, Long entityId, Integer event, Integer operation) {
+        insert(SQLqueries.INSERT_USERS_ACTION_IN_FEED, userId, event, operation, entityId);
     }
 
     public Collection<Feed> getUsersFeed(Long userId) {

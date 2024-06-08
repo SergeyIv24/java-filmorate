@@ -77,7 +77,7 @@ public class UserService {
         return feedStorage.getUsersFeed(userId);
     }
 
-    public void addUserActivity(Long userId, Long entity_id, Integer event, Integer operation) {
-        feedStorage.addUserActivity(userId, entity_id, event, operation);
+    public void addUserActivity(Long userId, Long entityId, Integer event, Integer operation) {
+        feedStorage.addUserActivity(userId, entityId, event, operation);
     }
 }
