@@ -78,7 +78,7 @@ public class ReviewController {
     @DeleteMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteLike(@PathVariable(value = "id") Long id,
-                               @PathVariable(value = "userId") Long userId) {
+                           @PathVariable(value = "userId") Long userId) {
         userService.addUserActivity(userId, id,
                 Constance.EVENT_TYPE_LIKE, Constance.OPERATION_REMOVE);
         reviewService.deleteLike(id);
