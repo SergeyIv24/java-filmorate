@@ -3,6 +3,8 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.controller.Events;
+import ru.yandex.practicum.filmorate.controller.Operations;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.User;
@@ -77,7 +79,7 @@ public class UserService {
         return feedStorage.getUsersFeed(userId);
     }
 
-    public void addUserActivity(Long userId, Long entityId, Integer event, Integer operation) {
+    public void addUserActivity(Long userId, Long entityId, Events event, Operations operation) {
         feedStorage.addUserActivity(userId, entityId, event, operation);
     }
 }

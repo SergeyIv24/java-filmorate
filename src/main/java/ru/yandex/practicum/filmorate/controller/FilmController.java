@@ -60,14 +60,14 @@ public class FilmController {
     @ResponseStatus(HttpStatus.OK)
     public void addLikeToFilm(@PathVariable(value = "id") Long id, @PathVariable(value = "userId") Long userId) { //Добавление лайка к фильму
         filmService.addLikeToFilm(userId, id);
-        userService.addUserActivity(userId, id, Events.LIKE.getEvent(), Operations.OPERATION_ADD.getOperation());
+        userService.addUserActivity(userId, id, Events.LIKE, Operations.OPERATION_ADD);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteLike(@PathVariable Long id, @PathVariable Long userId) { //Удаление лайка с фильма
         filmService.deleteLike(id, userId);
-        userService.addUserActivity(userId, id, Events.LIKE.getEvent(), Operations.OPERATION_REMOVE.getOperation());
+        userService.addUserActivity(userId, id, Events.LIKE, Operations.OPERATION_REMOVE);
     }
 
     @GetMapping("director/{directorId}")
