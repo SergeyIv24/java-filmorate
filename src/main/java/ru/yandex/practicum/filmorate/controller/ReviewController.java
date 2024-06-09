@@ -22,7 +22,7 @@ public class ReviewController {
     public Review addReview(@Valid @RequestBody Review review) {
         Review reviewResponded = reviewService.addReview(review);
         userService.addUserActivity(reviewResponded.getUserId(), reviewResponded.getReviewId(),
-                Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_ADD);
+                Events.REVIEW.getEvent(), Operations.OPERATION_ADD.getOperation());
         return reviewResponded;
     }
 
@@ -31,7 +31,7 @@ public class ReviewController {
     public Review updateReview(@Valid @RequestBody Review review) {
         Review updatedReview = reviewService.updateReview(review);
         userService.addUserActivity(updatedReview.getUserId(), updatedReview.getReviewId(),
-                Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_UPDATE);
+                Events.REVIEW.getEvent(), Operations.OPERATION_UPDATE.getOperation());
         return updatedReview;
     }
 
@@ -40,7 +40,7 @@ public class ReviewController {
     public void deleteReview(@PathVariable(value = "reviewId") Long reviewId) {
         Review review = reviewService.getReviewById(reviewId);
         userService.addUserActivity(review.getUserId(), review.getReviewId(),
-                Constance.EVENT_TYPE_REVIEW, Constance.OPERATION_REMOVE);
+                Events.REVIEW.getEvent(), Operations.OPERATION_REMOVE.getOperation());
         reviewService.deleteReview(reviewId);
     }
 
@@ -62,7 +62,7 @@ public class ReviewController {
     public void addLikeToReview(@PathVariable(value = "id") Long id,
                                 @PathVariable(value = "userId") Long userId) {
         userService.addUserActivity(userId, id,
-                Constance.EVENT_TYPE_LIKE, Constance.OPERATION_ADD);
+                Events.LIKE.getEvent(), Operations.OPERATION_ADD.getOperation());
         reviewService.addLikeToReview(id);
     }
 
@@ -71,7 +71,7 @@ public class ReviewController {
     public void addDislikeToReview(@PathVariable(value = "id") Long id,
                                    @PathVariable(value = "userId") Long userId) {
         userService.addUserActivity(userId, id,
-                Constance.EVENT_TYPE_LIKE, Constance.OPERATION_ADD);
+                Events.LIKE.getEvent(), Operations.OPERATION_ADD.getOperation());
         reviewService.addDislikeToReview(id);
     }
 
@@ -80,7 +80,7 @@ public class ReviewController {
     public void deleteLike(@PathVariable(value = "id") Long id,
                            @PathVariable(value = "userId") Long userId) {
         userService.addUserActivity(userId, id,
-                Constance.EVENT_TYPE_LIKE, Constance.OPERATION_REMOVE);
+                Events.LIKE.getEvent(), Operations.OPERATION_REMOVE.getOperation());
         reviewService.deleteLike(id);
     }
 }
