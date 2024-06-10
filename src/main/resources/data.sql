@@ -39,3 +39,13 @@ WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
 INSERT INTO geners (gener_name)
 SELECT('Боевик')
 WHERE (SELECT COUNT(gener_name)  FROM geners) < 6;
+
+MERGE INTO event_types (type_id, event_type)
+VALUES (1, 'LIKE'),
+        (2, 'REVIEW'),
+        (3, 'FRIEND');
+
+MERGE INTO operations (operation_id, operation)
+VALUES (1, 'REMOVE'),
+        (2, 'ADD'),
+        (3, 'UPDATE');

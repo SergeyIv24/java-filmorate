@@ -190,6 +190,18 @@ public class SQLqueries {
 
     static final String DELETE_OLD_GENERS = "DELETE FROM FILMS_GENERS WHERE FILM_ID = ?";
 
-    static final String REMOVE_REACTION = ""; //todo
+    static final String INSERT_USERS_ACTION_IN_FEED = "INSERT INTO FEED (TIMESTAMP, USER_ID," +
+            "EVENT_TYPE, OPERATION, entity_id) " +
+            "VALUES (CURRENT_TIMESTAMP, ?, ?, ?, ?);";
 
+    static final String GET_USERS_FEED = "SELECT EVENT_ID, " +
+            "TIMESTAMP, " +
+            "USER_ID, " +
+            "e.EVENT_TYPE, " +
+            "o.OPERATION, " +
+            "entity_id " +
+            "FROM FEED AS f " +
+            "INNER JOIN EVENT_TYPES AS e ON f.EVENT_TYPE = e.TYPE_ID " +
+            "INNER JOIN OPERATIONS AS o ON f.OPERATION  = o.OPERATION_ID " +
+            "WHERE f.USER_ID = ?; ";
 }
