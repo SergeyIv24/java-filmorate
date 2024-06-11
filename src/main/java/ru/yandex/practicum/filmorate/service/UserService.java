@@ -105,8 +105,6 @@ public class UserService {
         } else {
             ArrayList<Film> userMaxCommonFilms = new ArrayList<>(filmService.getFilmByUserId(userMaxCommonId));
             userMaxCommonFilms.removeAll(maxCommonFilm);
-            System.out.println("user id " + userId);
-            System.out.println("userMax id " + userMaxCommonId);
             return userMaxCommonFilms;
         }
     }
