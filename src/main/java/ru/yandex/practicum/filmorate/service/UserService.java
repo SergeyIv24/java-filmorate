@@ -7,10 +7,12 @@ import ru.yandex.practicum.filmorate.controller.Events;
 import ru.yandex.practicum.filmorate.controller.Operations;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Feed;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FeedDbStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class UserService {
     private final UserDbStorage userStorage;
     private final FeedDbStorage feedStorage;
+    private final FilmService filmService;
 
     public User getUserById(Long userId) {
         Optional<User> userOptional = userStorage.getUser(userId);
@@ -81,5 +84,31 @@ public class UserService {
 
     public void addUserActivity(Long userId, Long entityId, Events event, Operations operation) {
         feedStorage.addUserActivity(userId, entityId, event, operation);
+    }
+
+    public Collection<Film> getRecommendations(Long userId){
+        getUserById(userId);
+        ArrayList<User> allUser = new ArrayList<>(getAllUsers());
+        ArrayList<Film> maxCommonFilm = null;
+        int countMaxCommonFilm = 0;
+        Long userMaxCommonId = -1l;
+        for (User userTwo : allUser){
+            if (userTwo.getId() == userId){
+                continue;
+            }
+            ArrayList<Film> commonFilms = new ArrayList<>(filmService.getCommonFilms(userId, userTwo.getId()));
+            if (commonFilms.size() > countMaxCommonFilm){
+                countMaxCommonFilm = commonFilms.size();
+                maxCommonFilm = commonFilms;
+                userMaxCommonId = userTwo.getId();
+            }
+        }
+        if (countMaxCommonFilm == 0 || userMaxCommonId == -1l){
+            return new ArrayList<>();
+        } else {
+            ArrayList<Film> userMaxCommonFilms = new ArrayList<>(filmService.getFilmByUserId(userMaxCommonId));
+            userMaxCommonFilms.removeAll(maxCommonFilm);
+            return userMaxCommonFilms;
+        }
     }
 }
