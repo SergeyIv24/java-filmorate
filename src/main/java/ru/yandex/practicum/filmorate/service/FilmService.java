@@ -131,6 +131,10 @@ public class FilmService {
         return commonFilms;
     }
 
+    public Collection<Film> getFilmByUserId(Long userId){
+        return filmStorage.getFilmByUserId(userId);
+    }
+
     private void isFilmExist(Long filmId) {
         if (filmStorage.getFilm(filmId).isEmpty()) {
             log.warn("Фильма не существует");
