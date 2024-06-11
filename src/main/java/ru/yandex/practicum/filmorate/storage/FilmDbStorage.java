@@ -126,6 +126,15 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
         return getAllItems(sql.toString(), params.toArray());
     }
 
+
+
+
+    public Collection<Film> getCommonFilm(Long userId, Long friendId) {
+        return getAllItems(SQLqueries.GET_COMMON_FILMS, userId, friendId);
+    }
+
+}
+
     public List<Long> getFilmsSortByLikes(Long id) {
         List<Long> filmIds = new ArrayList<>();
         SqlRowSet rows = jdbcTemplate.queryForRowSet(SQLqueries.GET_DIRECTOR_FILMS_SORT_BY_LIKES, id);

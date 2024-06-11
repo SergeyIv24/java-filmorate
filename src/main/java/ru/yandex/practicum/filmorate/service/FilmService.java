@@ -120,6 +120,17 @@ public class FilmService {
         }
     }
 
+    public Collection<Film> getCommonFilms(Long userId, Long friendId) {
+        isUserExist(userId);
+        isUserExist(friendId);
+        ArrayList<Film> commonFilms = new ArrayList<>(filmStorage.getCommonFilm(userId, friendId));
+        for (Film film : commonFilms) {
+            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            film.setGenres(genres);
+        }
+        return commonFilms;
+    }
+
     private void isFilmExist(Long filmId) {
         if (filmStorage.getFilm(filmId).isEmpty()) {
             log.warn("Фильма не существует");
