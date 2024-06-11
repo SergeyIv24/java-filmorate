@@ -223,4 +223,17 @@ public class SQLqueries {
             "JOIN who_liked w2 ON f.films_id = w2.films_id AND w2.user_id = ? " +
             "ORDER BY pop.popular DESC ";
 
+
+    public static final String GET_FILMS_BY_USER_ID = "SELECT f.films_id, " +
+            "f.name, " +
+            "f.description, " +
+            "f.release_date, " +
+            "f.duration, " +
+            "f.rating_id, " +
+            "r.name as Mpa_name " +
+            "FROM films f " +
+            "JOIN who_liked w ON f.films_id = w.films_id " +
+            "JOIN users u ON w.user_id = u.user_id " +
+            "JOIN ratings r ON f.rating_id = r.rating_id " +
+            "WHERE u.user_id = ?";
 }
