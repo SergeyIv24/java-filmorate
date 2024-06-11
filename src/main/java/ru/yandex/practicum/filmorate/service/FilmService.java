@@ -12,10 +12,8 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,6 +58,8 @@ public class FilmService {
     public Film updateFilm(Film film) {
         isFilmExist(film.getId());
         validate(film);
+        Collection <Genre> uniqueGenres = checkUniqueGenres(film.getGenres());
+        film.setGenres(uniqueGenres);
         return filmStorage.updateFilm(film);
     }
 
@@ -154,6 +154,13 @@ public class FilmService {
             log.warn("Пользователь не существует");
             throw new NotFoundException("Пользователь с таким id не существует");
         }
+    }
+
+    private Collection<Genre> checkUniqueGenres(Collection<Genre> genres) {
+        if (genres == null) {
+            return List.of();
+        }
+        return genres.stream().distinct().collect(Collectors.toList());
     }
 
     //Валидация входных данных

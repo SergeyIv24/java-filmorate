@@ -161,7 +161,7 @@ public class SQLqueries {
             "VALUES (?, ?, ?, ?);";
 
     static final String UPDATE_REVIEW = "UPDATE reviews " +
-            "SET content = ?, isPositive = ?, films_id = ?, useful = ? " +
+            "SET content = ?, isPositive = ?, user_id = ?, films_id = ?, useful = ? " +
             "WHERE review_id = ?;";
 
     static final String DELETE_REVIEW = "DELETE FROM reviews " +

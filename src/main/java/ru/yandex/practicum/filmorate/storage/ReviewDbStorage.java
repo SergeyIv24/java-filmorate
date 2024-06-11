@@ -29,6 +29,7 @@ public class ReviewDbStorage extends BaseStorage<Review> {
         update(SQLqueries.UPDATE_REVIEW,
                 review.getContent(),
                 review.getIsPositive(),
+                review.getUserId(),
                 review.getFilmId(),
                 review.getUseful(),
                 review.getReviewId());
