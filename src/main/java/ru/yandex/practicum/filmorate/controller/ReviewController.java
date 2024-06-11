@@ -70,7 +70,7 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     public void addDislikeToReview(@PathVariable(value = "id") Long id,
                                    @PathVariable(value = "userId") Long userId) {
-        userService.addUserActivity(userId, id,
+        userService.addUserActivity(userId, id, //Запись действия пользователя
                 Events.LIKE, Operations.OPERATION_ADD);
         reviewService.addDislikeToReview(id);
     }
