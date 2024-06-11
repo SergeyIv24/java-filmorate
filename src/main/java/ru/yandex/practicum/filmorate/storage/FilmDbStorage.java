@@ -153,5 +153,4 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
     public Collection<Film> getFilmByUserId(Long userId) {
         return getAllItems(SQLqueries.GET_FILMS_BY_USER_ID, userId);
     }
-
 }

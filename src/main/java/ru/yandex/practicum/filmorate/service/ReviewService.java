@@ -63,7 +63,7 @@ public class ReviewService {
         isReviewExist(reviewId);
         reviewDbStorage.addDislikeToReview(reviewId);
         Optional<Review> updatedReview = reviewDbStorage.getReviewById(reviewId);
-        if (updatedReview.isPresent() && updatedReview.get().getUseful() == 0) { //Если рейтинг 0, то уменьшение до -1
+        if (updatedReview.isPresent() && updatedReview.get().getUseful() == 0) {
             reviewDbStorage.addDislikeToReview(reviewId);
         }
     }
