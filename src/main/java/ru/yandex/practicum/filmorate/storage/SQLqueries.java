@@ -188,7 +188,7 @@ public class SQLqueries {
 
     static final String DELETE_OLD_DIRECTORS = "DELETE FROM FILMS_DIRECTORS WHERE FILM_ID = ?";
 
-    static final String DELETE_OLD_GENERS = "DELETE FROM FILMS_GENERS WHERE FILM_ID = ?";
+    static final String DELETE_OLD_GENERS = "DELETE FROM FILMS_GENERS WHERE FILMS_ID = ?";
 
     static final String INSERT_USERS_ACTION_IN_FEED = "INSERT INTO FEED (TIMESTAMP, USER_ID," +
             "EVENT_TYPE, OPERATION, entity_id) " +
