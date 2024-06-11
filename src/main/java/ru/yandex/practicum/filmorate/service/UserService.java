@@ -91,7 +91,7 @@ public class UserService {
         ArrayList<User> allUser = new ArrayList<>(getAllUsers());
         ArrayList<Film> maxCommonFilm = null;
         int countMaxCommonFilm = 0;
-        Long userMaxCommonId = -1l;
+        Long userMaxCommonId = -1L;
         for (User userTwo : allUser) {
             ArrayList<Film> commonFilms = new ArrayList<>(filmService.getCommonFilms(userId, userTwo.getId()));
             if (commonFilms.size() > countMaxCommonFilm && userTwo.getId() != userId) {
