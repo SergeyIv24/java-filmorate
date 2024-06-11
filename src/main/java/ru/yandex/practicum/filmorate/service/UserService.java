@@ -86,24 +86,24 @@ public class UserService {
         feedStorage.addUserActivity(userId, entityId, event, operation);
     }
 
-    public Collection<Film> getRecommendations(Long userId){
+    public Collection<Film> getRecommendations(Long userId) {
         getUserById(userId);
         ArrayList<User> allUser = new ArrayList<>(getAllUsers());
         ArrayList<Film> maxCommonFilm = null;
         int countMaxCommonFilm = 0;
         Long userMaxCommonId = -1l;
-        for (User userTwo : allUser){
-            if (userTwo.getId() == userId){
+        for (User userTwo : allUser) {
+            if (userTwo.getId() == userId) {
                 continue;
             }
             ArrayList<Film> commonFilms = new ArrayList<>(filmService.getCommonFilms(userId, userTwo.getId()));
-            if (commonFilms.size() > countMaxCommonFilm){
+            if (commonFilms.size() > countMaxCommonFilm) {
                 countMaxCommonFilm = commonFilms.size();
                 maxCommonFilm = commonFilms;
                 userMaxCommonId = userTwo.getId();
             }
         }
-        if (countMaxCommonFilm == 0 || userMaxCommonId == -1l){
+        if (countMaxCommonFilm == 0 || userMaxCommonId == -1l) {
             return new ArrayList<>();
         } else {
             ArrayList<Film> userMaxCommonFilms = new ArrayList<>(filmService.getFilmByUserId(userMaxCommonId));

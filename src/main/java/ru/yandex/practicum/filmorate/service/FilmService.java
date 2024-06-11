@@ -131,7 +131,7 @@ public class FilmService {
         return commonFilms;
     }
 
-    public Collection<Film> getFilmByUserId(Long userId){
+    public Collection<Film> getFilmByUserId(Long userId) {
         return filmStorage.getFilmByUserId(userId);
     }
 

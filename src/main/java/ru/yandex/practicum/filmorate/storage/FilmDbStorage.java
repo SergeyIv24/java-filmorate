@@ -127,8 +127,6 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
     }
 
 
-
-
     public Collection<Film> getCommonFilm(Long userId, Long friendId) {
         return getAllItems(SQLqueries.GET_COMMON_FILMS, userId, friendId);
     }
@@ -152,7 +150,7 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
         return filmIds;
     }
 
-    public Collection<Film> getFilmByUserId(Long userId){
+    public Collection<Film> getFilmByUserId(Long userId) {
         return getAllItems(SQLqueries.GET_FILMS_BY_USER_ID, userId);
     }
 

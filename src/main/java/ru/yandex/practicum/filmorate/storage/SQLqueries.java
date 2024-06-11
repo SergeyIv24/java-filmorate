@@ -85,15 +85,15 @@ public class SQLqueries {
             "rat.NAME AS Mpa_name, " +
             "FROM FILMS AS f " +
             "LEFT JOIN ( " +
-               "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
-               "FROM WHO_LIKED AS WL " +
-               "GROUP BY FILMS_ID " +
-               "ORDER BY popular DESC " +
-               "LIMIT ? " +
+            "SELECT FILMS_ID, COUNT (USER_ID) AS popular " +
+            "FROM WHO_LIKED AS WL " +
+            "GROUP BY FILMS_ID " +
+            "ORDER BY popular DESC " +
+            "LIMIT ? " +
             ") AS pop ON pop.FILMS_ID = f.FILMS_ID " +
-               "INNER JOIN ( " +
-               "SELECT * " +
-               "FROM RATINGS AS r " +
+            "INNER JOIN ( " +
+            "SELECT * " +
+            "FROM RATINGS AS r " +
             ") AS rat ON rat.RATING_ID = f.RATING_ID ";
 
     static final String ADD_GENRE = "INSERT INTO FILMS_GENERS (GENER_ID, FILMS_ID) " +
@@ -148,12 +148,12 @@ public class SQLqueries {
             "ORDER BY f.RELEASE_DATE";
 
     static final String GET_DIRECTOR_FILMS_SORT_BY_LIKES = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count " +
-                    "FROM FILMS_DIRECTORS fd " +
-                    "JOIN FILMS f ON fd.FILM_ID = f.FILMS_ID " +
-                    "LEFT JOIN WHO_LIKED wl ON fd.FILM_ID = wl.FILMS_ID " +
-                    "WHERE fd.DIRECTOR_ID = ? " +
-                    "GROUP BY fd.FILM_ID " +
-                    "ORDER BY LIKES_COUNT DESC";
+            "FROM FILMS_DIRECTORS fd " +
+            "JOIN FILMS f ON fd.FILM_ID = f.FILMS_ID " +
+            "LEFT JOIN WHO_LIKED wl ON fd.FILM_ID = wl.FILMS_ID " +
+            "WHERE fd.DIRECTOR_ID = ? " +
+            "GROUP BY fd.FILM_ID " +
+            "ORDER BY LIKES_COUNT DESC";
 
     static final String ALL_REVIEWS = "SELECT * FROM reviews";
 
