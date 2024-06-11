@@ -93,21 +93,20 @@ public class UserService {
         int countMaxCommonFilm = 0;
         Long userMaxCommonId = -1l;
         for (User userTwo : allUser) {
-            if (userTwo.getId() == userId) {
-                continue;
-            }
             ArrayList<Film> commonFilms = new ArrayList<>(filmService.getCommonFilms(userId, userTwo.getId()));
-            if (commonFilms.size() > countMaxCommonFilm) {
+            if (commonFilms.size() > countMaxCommonFilm && userTwo.getId() != userId) {
                 countMaxCommonFilm = commonFilms.size();
                 maxCommonFilm = commonFilms;
                 userMaxCommonId = userTwo.getId();
             }
         }
-        if (countMaxCommonFilm == 0 || userMaxCommonId == -1l) {
+        if (countMaxCommonFilm == 0) {
             return new ArrayList<>();
         } else {
             ArrayList<Film> userMaxCommonFilms = new ArrayList<>(filmService.getFilmByUserId(userMaxCommonId));
             userMaxCommonFilms.removeAll(maxCommonFilm);
+            System.out.println("user id " + userId);
+            System.out.println("userMax id " + userMaxCommonId);
             return userMaxCommonFilms;
         }
     }
