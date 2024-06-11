@@ -89,7 +89,7 @@ public class SQLqueries {
             "FROM WHO_LIKED AS WL " +
             "GROUP BY FILMS_ID " +
             "ORDER BY popular DESC " +
-            "LIMIT ? " +
+            //"LIMIT ? " +
             ") AS pop ON pop.FILMS_ID = f.FILMS_ID " +
             "INNER JOIN ( " +
             "SELECT * " +
@@ -171,6 +171,8 @@ public class SQLqueries {
             "WHERE review_id = ?;";
 
     static final String GET_ALL_REVIEWS = "SELECT * FROM reviews LIMIT ?;";
+
+    static final String GET_ALL_REVIEW_NO_LIMIT = "SELECT * FROM reviews;";
 
     static final String GET_ALL_FILMS_REVIEWS = "SELECT * FROM reviews " +
             "WHERE films_id = ? " +

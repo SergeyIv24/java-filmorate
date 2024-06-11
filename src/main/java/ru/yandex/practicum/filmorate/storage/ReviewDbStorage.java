@@ -44,6 +44,9 @@ public class ReviewDbStorage extends BaseStorage<Review> {
     }
 
     public Collection<Review> getAllReviews(Integer count) {
+        if (count == null) {
+            return getAllItems(SQLqueries.GET_ALL_REVIEW_NO_LIMIT);
+        }
         return getAllItems(SQLqueries.GET_ALL_REVIEWS, count);
     }
 

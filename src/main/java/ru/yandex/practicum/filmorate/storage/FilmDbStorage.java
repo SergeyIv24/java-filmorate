@@ -113,15 +113,17 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
             sql.append(" GROUP BY f.films_id, f.name, f.description, f.release_date, f.duration, f.rating_id, rat.name ")
                     .append(" ORDER BY pop.popular DESC ");
         }
+        sql.append("LIMIT ?;");
 
         List<Object> params = new ArrayList<>();
-        params.add(amount);
+        //params.add(amount);
         if (genreId != null) {
             params.add(genreId);
         }
         if (year != null) {
             params.add(year);
         }
+        params.add(amount);
 
         return getAllItems(sql.toString(), params.toArray());
     }

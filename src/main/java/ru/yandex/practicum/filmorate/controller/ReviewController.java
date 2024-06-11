@@ -52,8 +52,8 @@ public class ReviewController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Collection<Review> getSomeReviews(@RequestParam Long filmId,
-                                             @RequestParam(defaultValue = "10") Integer count) {
+    public Collection<Review> getSomeReviews(@RequestParam (required = false) Long filmId,
+                                             @RequestParam(required = false, defaultValue = "10") Integer count) {
         return reviewService.getSomeReviews(filmId, count);
     }
 
