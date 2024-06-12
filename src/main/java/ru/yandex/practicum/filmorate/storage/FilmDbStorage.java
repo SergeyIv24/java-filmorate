@@ -155,4 +155,17 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
     public Collection<Film> getFilmByUserId(Long userId) {
         return getAllItems(SQLqueries.GET_FILMS_BY_USER_ID, userId);
     }
+
+    public Collection<Film> searchFilmByTitle(String string) {
+        return getAllItems(SQLqueries.SEARCH_FILM_BY_TITLE, "%" + string + "%");
+    }
+
+    public Collection<Film> searchFilmByDirector(String string) {
+        return getAllItems(SQLqueries.SEARCH_FILM_BY_DIRECTOR, "%" + string + "%");
+    }
+
+    public Collection<Film> searchFilmByBoth(String string) {
+        return getAllItems(SQLqueries.SEARCH_FILM_BY_DIRECTOR_AND_NAME, "%" + string + "%",
+                "%" + string + "%");
+    }
 }
