@@ -135,7 +135,7 @@ public class FilmService {
     }
 
     public Collection<Film> searchFilm(String query, String by) {
-        HashSet<Film> films = new HashSet<>();
+        ArrayList<Film> films = new ArrayList<>();
         query = query.toLowerCase();
         if (by.equals("title")) {
             films.addAll(filmStorage.searchFilmByTitle(query));
