@@ -134,6 +134,26 @@ public class FilmService {
         return filmStorage.getFilmByUserId(userId);
     }
 
+    public Collection<Film> searchFilm(String query, String by) {
+        HashSet<Film> films = new HashSet<>();
+        query = query.toLowerCase();
+        if (by.equals("title")) {
+            films.addAll(filmStorage.searchFilmByTitle(query));
+        }
+        if (by.equals("director")) {
+            films.addAll(filmStorage.searchFilmByDirector(query));
+        } else if (by.equals("title,director")) {
+            films.addAll(filmStorage.searchFilmByBoth(query));
+        }
+        for (Film film : films) {
+            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
+            film.setGenres(genres);
+            film.setDirectors(directors);
+        }
+        return films;
+    }
+
     private void isFilmExist(Long filmId) {
         if (filmStorage.getFilm(filmId).isEmpty()) {
             log.warn("Фильма не существует");
