@@ -64,7 +64,7 @@ public class UserController {
     public void makeUsersFriends(@PathVariable(value = "id") Long id, @PathVariable(value = "friendId") Long friendId) {
         userService.addUserInFriends(id, friendId);
         userService.addUserActivity(id, friendId, Events.FRIEND, Operations.OPERATION_ADD);
-        userService.addUserActivity(friendId, id, Events.FRIEND, Operations.OPERATION_ADD);
+        //userService.addUserActivity(friendId, id, Events.FRIEND, Operations.OPERATION_ADD);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
@@ -73,8 +73,8 @@ public class UserController {
         userService.deleteUserFromFriends(userId, friendId);
         userService.addUserActivity(userId, friendId, Events.FRIEND,
                 Operations.OPERATION_REMOVE);
-        userService.addUserActivity(friendId, userId, Events.FRIEND,
-                Operations.OPERATION_REMOVE);
+        //userService.addUserActivity(friendId, userId, Events.FRIEND,
+          //      Operations.OPERATION_REMOVE);
     }
 
     @GetMapping("/{id}/feed")
