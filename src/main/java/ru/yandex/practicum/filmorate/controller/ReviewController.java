@@ -32,7 +32,7 @@ public class ReviewController {
         Review updatedReview = reviewService.updateReview(review);
         userService.addUserActivity(updatedReview.getUserId(), updatedReview.getReviewId(),
                 Events.REVIEW, Operations.OPERATION_UPDATE);
-        return updatedReview;
+        return reviewService.getReviewById(review.getReviewId());
     }
 
     @DeleteMapping("/{reviewId}")

@@ -31,6 +31,12 @@ public class ReviewService {
     public Review updateReview(Review review) {
         isUserExist(review.getUserId());
         isFilmExist(review.getFilmId());
+        Optional<Review> existedReview = reviewDbStorage.getReviewById(review.getReviewId());
+        if (existedReview.isPresent()) {
+            review.setUserId(existedReview.get().getUserId());
+            review.setFilmId(existedReview.get().getFilmId());
+            review.setUseful(existedReview.get().getUseful());
+        }
         if (review.getUseful() == null) {
             review.setUseful(0L);
         }

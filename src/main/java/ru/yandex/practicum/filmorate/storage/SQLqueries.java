@@ -155,8 +155,6 @@ public class SQLqueries {
             "GROUP BY fd.FILM_ID " +
             "ORDER BY LIKES_COUNT DESC";
 
-    static final String ALL_REVIEWS = "SELECT * FROM reviews";
-
     static final String ADD_REVIEW = "INSERT INTO reviews (content, isPositive, user_id, films_id) " +
             "VALUES (?, ?, ?, ?);";
 
@@ -170,12 +168,13 @@ public class SQLqueries {
     static final String REVIEW_BY_ID = "SELECT * FROM reviews " +
             "WHERE review_id = ?;";
 
-    static final String GET_ALL_REVIEWS = "SELECT * FROM reviews LIMIT ?;";
+    static final String GET_ALL_REVIEWS = "SELECT * FROM reviews ORDER BY USEFUL DESC LIMIT ?;";
 
-    static final String GET_ALL_REVIEW_NO_LIMIT = "SELECT * FROM reviews;";
+    static final String GET_ALL_REVIEW_NO_LIMIT = "SELECT * FROM reviews ORDER BY USEFUL DESC;";
 
     static final String GET_ALL_FILMS_REVIEWS = "SELECT * FROM reviews " +
             "WHERE films_id = ? " +
+            "ORDER BY USEFUL DESC " +
             "LIMIT ?;";
 
     static final String ADD_LIKE_TO_REVIEW = "UPDATE reviews " +
