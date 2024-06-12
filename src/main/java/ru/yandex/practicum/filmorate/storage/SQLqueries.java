@@ -246,7 +246,7 @@ public class SQLqueries {
             "FROM RATINGS AS r " +
             ") AS rat ON rat.RATING_ID = f.RATING_ID " +
             "WHERE LOWER(f.NAME) LIKE ? " +
-            "GROUP BY f.films_id "+
+            "GROUP BY f.films_id " +
             "ORDER BY likes_count DESC";
 
     static final String SEARCH_FILM_BY_DIRECTOR = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count, rat.name as Mpa_name " +
@@ -259,7 +259,7 @@ public class SQLqueries {
             "FROM RATINGS AS r " +
             ") AS rat ON rat.RATING_ID = f.RATING_ID " +
             "WHERE LOWER(d.NAME) LIKE ? " +
-            "GROUP BY fd.film_id "+
+            "GROUP BY fd.film_id " +
             "ORDER BY likes_count DESC";
 
     static final String SEARCH_FILM_BY_DIRECTOR_AND_NAME = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count, rat.name as Mpa_name " +
@@ -272,6 +272,6 @@ public class SQLqueries {
             "FROM RATINGS AS r " +
             ") AS rat ON rat.RATING_ID = f.RATING_ID " +
             "WHERE LOWER(d.NAME) LIKE ? OR LOWER(f.NAME) LIKE ?" +
-            "GROUP BY f.films_id "+
+            "GROUP BY f.films_id " +
             "ORDER BY likes_count DESC";
 }
