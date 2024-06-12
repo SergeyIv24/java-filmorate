@@ -59,8 +59,8 @@ public class FilmController {
     @PutMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public void addLikeToFilm(@PathVariable(value = "id") Long id, @PathVariable(value = "userId") Long userId) { //Добавление лайка к фильму
-        filmService.addLikeToFilm(userId, id);
         userService.addUserActivity(userId, id, Events.LIKE, Operations.OPERATION_ADD);
+        filmService.addLikeToFilm(userId, id);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
