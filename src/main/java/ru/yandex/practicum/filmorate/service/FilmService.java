@@ -32,7 +32,6 @@ public class FilmService {
         }
         Film film = optionalFilm.get();
         Collection<Director> directors = directorStorage.findAllFilmsDirectors(filmId);
-        //Film film = filmStorage.getFilm(filmId).get();
         film.setGenres(genres);
         film.setDirectors(directors);
         return film;
@@ -58,7 +57,7 @@ public class FilmService {
     public Film updateFilm(Film film) {
         isFilmExist(film.getId());
         validate(film);
-        Collection <Genre> uniqueGenres = checkUniqueGenres(film.getGenres());
+        Collection<Genre> uniqueGenres = checkUniqueGenres(film.getGenres());
         film.setGenres(uniqueGenres);
         return filmStorage.updateFilm(film);
     }
