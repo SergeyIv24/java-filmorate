@@ -237,4 +237,41 @@ public class SQLqueries {
             "JOIN users u ON w.user_id = u.user_id " +
             "JOIN ratings r ON f.rating_id = r.rating_id " +
             "WHERE u.user_id = ?";
+
+    static final String SEARCH_FILM_BY_TITLE = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count, rat.name as Mpa_name  " +
+            "FROM FILMS f " +
+            "LEFT JOIN WHO_LIKED wl ON f.films_id = wl.FILMS_ID " +
+            "INNER JOIN ( " +
+            "SELECT * " +
+            "FROM RATINGS AS r " +
+            ") AS rat ON rat.RATING_ID = f.RATING_ID " +
+            "WHERE LOWER(f.NAME) LIKE ? " +
+            "GROUP BY f.films_id "+
+            "ORDER BY likes_count DESC";
+
+    static final String SEARCH_FILM_BY_DIRECTOR = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count, rat.name as Mpa_name " +
+            "FROM FILMS_DIRECTORS fd " +
+            "JOIN FILMS f ON fd.film_id = f.FILMS_ID " +
+            "LEFT JOIN WHO_LIKED wl ON fd.film_id = wl.FILMS_ID " +
+            "LEFT JOIN DIRECTORS d ON fd.DIRECTOR_ID = d.DIRECTOR_ID " +
+            "INNER JOIN ( " +
+            "SELECT * " +
+            "FROM RATINGS AS r " +
+            ") AS rat ON rat.RATING_ID = f.RATING_ID " +
+            "WHERE LOWER(d.NAME) LIKE ? " +
+            "GROUP BY fd.film_id "+
+            "ORDER BY likes_count DESC";
+
+    static final String SEARCH_FILM_BY_DIRECTOR_AND_NAME = "SELECT f.*, COUNT(wl.USER_ID) AS likes_count, rat.name as Mpa_name " +
+            "FROM FILMS f " +
+            "LEFT JOIN WHO_LIKED wl ON f.films_id = wl.FILMS_ID " +
+            "LEFT JOIN FILMS_DIRECTORS fd ON fd.film_id = f.FILMS_ID " +
+            "LEFT JOIN DIRECTORS d ON fd.DIRECTOR_ID = d.DIRECTOR_ID " +
+            "INNER JOIN ( " +
+            "SELECT * " +
+            "FROM RATINGS AS r " +
+            ") AS rat ON rat.RATING_ID = f.RATING_ID " +
+            "WHERE LOWER(d.NAME) LIKE ? OR LOWER(f.NAME) LIKE ?" +
+            "GROUP BY f.films_id "+
+            "ORDER BY likes_count DESC";
 }
