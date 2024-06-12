@@ -79,6 +79,10 @@ public class UserService {
     }
 
     public Collection<Feed> getUserFeed(Long userId) {
+        if (userStorage.getUser(userId).isEmpty()) {
+            log.warn("Пользователь не существует");
+            throw new NotFoundException("Пользователь не существует");
+        }
         return feedStorage.getUsersFeed(userId);
     }
 
