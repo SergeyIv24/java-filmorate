@@ -34,21 +34,11 @@ public class FilmService {
             throw new NotFoundException("Позьзователь с данным id не существует");
         }
         Film film = optionalFilm.get();
-        Collection<Director> directors = directorStorage.findAllFilmsDirectors(filmId);
-        film.setGenres(genres);
-        film.setDirectors(directors);
         return film;
     }
 
     public Collection<Film> getAllFilms() {
-        Collection<Film> films = filmStorage.getAllFilms();
-        for (Film film : films) {
-            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
-            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
-            film.setGenres(genres);
-            film.setDirectors(directors);
-        }
-        return films;
+        return filmStorage.getAllFilms();
     }
 
     public Film addFilm(Film newFilm) {
@@ -92,14 +82,7 @@ public class FilmService {
     }
 
     public Collection<Film> getSomePopularFilms(Integer amountOfFilms, Integer genreId, Integer year) {
-        Collection<Film> popularFilms = filmStorage.findSomePopular(amountOfFilms, genreId, year);
-        for (Film film : popularFilms) {
-            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
-            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
-            film.setGenres(genres);
-            film.setDirectors(directors);
-        }
-        return popularFilms;
+        return filmStorage.findSomePopular(amountOfFilms, genreId, year);
     }
 
     public Collection<Film> getDirectorsFilmsSortBy(Long id, String sortBy) {
@@ -129,25 +112,11 @@ public class FilmService {
     public Collection<Film> getCommonFilms(Long userId, Long friendId) {
         isUserExist(userId);
         isUserExist(friendId);
-        ArrayList<Film> commonFilms = new ArrayList<>(filmStorage.getCommonFilm(userId, friendId));
-        for (Film film : commonFilms) {
-            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
-            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
-            film.setGenres(genres);
-            film.setDirectors(directors);
-        }
-        return commonFilms;
+        return new ArrayList<>(filmStorage.getCommonFilm(userId, friendId));
     }
 
     public Collection<Film> getFilmByUserId(Long userId) {
-        ArrayList<Film> films = new ArrayList<>(filmStorage.getFilmByUserId(userId));
-        for (Film film : films) {
-            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
-            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
-            film.setGenres(genres);
-            film.setDirectors(directors);
-        }
-        return films;
+        return new ArrayList<>(filmStorage.getFilmByUserId(userId));
     }
 
     public Collection<Film> searchFilm(String query, String by) {
@@ -160,12 +129,6 @@ public class FilmService {
             films.addAll(filmStorage.searchFilmByDirector(query));
         } else if (by.equals("title,director")) {
             films.addAll(filmStorage.searchFilmByBoth(query));
-        }
-        for (Film film : films) {
-            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
-            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
-            film.setGenres(genres);
-            film.setDirectors(directors);
         }
         return films;
     }
