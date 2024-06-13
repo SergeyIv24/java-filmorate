@@ -12,7 +12,10 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.*;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +77,17 @@ public class FilmService {
     public void addLikeToFilm(Long userId, Long filmId) {
         isFilmExist(filmId);
         isUserExist(userId);
-        filmStorage.addLikeToFilm(userId, filmId);
+        try {
+            filmStorage.addLikeToFilm(userId, filmId);
+        } catch (Exception e) {
+            log.warn("При добавлении лайка произошла ошибка" + e.getMessage());
+            return;
+        }
+
+        //if (isLikedAlreadySet(userId, filmId)) {
+            return;
+        //}
+        //filmStorage.addLikeToFilm(userId, filmId);
     }
 
     //Метод удаления лайка с фильма
