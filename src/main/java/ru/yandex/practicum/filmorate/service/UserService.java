@@ -11,7 +11,6 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FeedDbStorage;
 import ru.yandex.practicum.filmorate.storage.FilmDbStorage;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.util.ArrayList;
@@ -100,7 +99,7 @@ public class UserService {
         Long userMaxCommonId = -1L;
         for (User userTwo : allUser) {
             ArrayList<Film> commonFilms = new ArrayList<>(filmStorage.getCommonFilm(userId, userTwo.getId()));
-            if (commonFilms.size() > countMaxCommonFilm && userTwo.getId() != userId) {
+            if (commonFilms.size() > countMaxCommonFilm && !userTwo.getId().equals(userId)) {
                 countMaxCommonFilm = commonFilms.size();
                 maxCommonFilm = commonFilms;
                 userMaxCommonId = userTwo.getId();
