@@ -52,12 +52,8 @@ public class FilmDbStorage extends BaseStorage<Film> implements FilmStorage {
                 film.getDuration().toMinutes(),
                 film.getMpa().getId(),
                 film.getId());
-        if (film.getDirectors() != null) {
-            jdbcTemplate.update(SQLqueries.DELETE_OLD_DIRECTORS, film.getId());
-        }
-        if (film.getGenres() != null) {
-            jdbcTemplate.update(SQLqueries.DELETE_OLD_GENERS, film.getId());
-        }
+        jdbcTemplate.update(SQLqueries.DELETE_OLD_DIRECTORS, film.getId());
+        jdbcTemplate.update(SQLqueries.DELETE_OLD_GENERS, film.getId());
         setGenres(film, film.getId());
         setDirectors(film, film.getId());
         return film;
