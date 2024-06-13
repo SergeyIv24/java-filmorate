@@ -23,8 +23,8 @@ public class DirectorService {
     }
 
     public Director getDirectorById(Long id) {
-        isDirectorExist(id);
-        return directorStorage.getDirectorById(id).get();
+        return directorStorage.getDirectorById(id)
+                .orElseThrow(() -> new NotFoundException("Режиссёра с таким id не существует"));
     }
 
     public Director addDirector(Director director) {
