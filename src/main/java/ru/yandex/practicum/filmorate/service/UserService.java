@@ -10,6 +10,8 @@ import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FeedDbStorage;
+import ru.yandex.practicum.filmorate.storage.FilmDbStorage;
+import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.UserDbStorage;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.Optional;
 public class UserService {
     private final UserDbStorage userStorage;
     private final FeedDbStorage feedStorage;
-    private final FilmService filmService;
+    private final FilmDbStorage filmStorage;
 
     public User getUserById(Long userId) {
         Optional<User> userOptional = userStorage.getUser(userId);
@@ -97,7 +99,7 @@ public class UserService {
         int countMaxCommonFilm = 0;
         Long userMaxCommonId = -1L;
         for (User userTwo : allUser) {
-            ArrayList<Film> commonFilms = new ArrayList<>(filmService.getCommonFilms(userId, userTwo.getId()));
+            ArrayList<Film> commonFilms = new ArrayList<>(filmStorage.getCommonFilm(userId, userTwo.getId()));
             if (commonFilms.size() > countMaxCommonFilm && userTwo.getId() != userId) {
                 countMaxCommonFilm = commonFilms.size();
                 maxCommonFilm = commonFilms;
@@ -107,7 +109,7 @@ public class UserService {
         if (countMaxCommonFilm == 0) {
             return new ArrayList<>();
         } else {
-            ArrayList<Film> userMaxCommonFilms = new ArrayList<>(filmService.getFilmByUserId(userMaxCommonId));
+            ArrayList<Film> userMaxCommonFilms = new ArrayList<>(filmStorage.getFilmByUserId(userMaxCommonId));
             userMaxCommonFilms.removeAll(maxCommonFilm);
             return userMaxCommonFilms;
         }
