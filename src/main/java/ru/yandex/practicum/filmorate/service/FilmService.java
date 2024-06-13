@@ -80,14 +80,8 @@ public class FilmService {
         try {
             filmStorage.addLikeToFilm(userId, filmId);
         } catch (Exception e) {
-            log.warn("При добавлении лайка произошла ошибка" + e.getMessage());
-            return;
+            log.warn("При добавлении лайка произошла ошибка");
         }
-
-        //if (isLikedAlreadySet(userId, filmId)) {
-            return;
-        //}
-        //filmStorage.addLikeToFilm(userId, filmId);
     }
 
     //Метод удаления лайка с фильма
@@ -138,13 +132,22 @@ public class FilmService {
         ArrayList<Film> commonFilms = new ArrayList<>(filmStorage.getCommonFilm(userId, friendId));
         for (Film film : commonFilms) {
             Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
             film.setGenres(genres);
+            film.setDirectors(directors);
         }
         return commonFilms;
     }
 
     public Collection<Film> getFilmByUserId(Long userId) {
-        return filmStorage.getFilmByUserId(userId);
+        ArrayList<Film> films = new ArrayList<>(filmStorage.getFilmByUserId(userId));
+        for (Film film : films) {
+            Collection<Genre> genres = genreStorage.findAllFilmGenre(film.getId());
+            Collection<Director> directors = directorStorage.findAllFilmsDirectors(film.getId());
+            film.setGenres(genres);
+            film.setDirectors(directors);
+        }
+        return films;
     }
 
     public Collection<Film> searchFilm(String query, String by) {

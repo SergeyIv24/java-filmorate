@@ -61,8 +61,8 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.OK)
     public void addLikeToReview(@PathVariable(value = "id") Long id,
                                 @PathVariable(value = "userId") Long userId) {
-        userService.addUserActivity(userId, id,
-                Events.LIKE, Operations.OPERATION_ADD);
+        //userService.addUserActivity(userId, id,
+          //      Events.LIKE, Operations.OPERATION_ADD);
         reviewService.addLikeToReview(id);
     }
 
