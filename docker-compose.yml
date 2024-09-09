@@ -1,0 +1,10 @@
+version: "3.1"
+services:
+  filmo-rate:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+
+    container_name: filmorate-app
+    ports:
+      - "8080:8080"
